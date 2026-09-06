@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laura Marshall — Portfolio</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+  --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --ink: #0f0f0f;
+  --ink-mid: #2e2e2e;
+  --muted: #767676;
+  --rule: #e2e2e2;
+  --bg: #fafaf8;
+  --bar-h: 40px;
+  --max: 1240px;
+  --accent-colour: #007d79;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--ink);
+  background: var(--bg);
+  overflow-x: hidden;
+  padding-top: var(--bar-h);
+}
+
+.top-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--bar-h);
+  background: rgba(250,250,248,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+  z-index: 100;
+}
+
+.top-bar-inner {
+  max-width: 1240px;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.top-bar-left {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.top-bar-right {
+  font-size: 16px;
+  color: var(--muted);
+  text-align: right;
+}
+
+.top-bar-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+
+.top-bar-sep {
+  font-size: 16px;
+  color: var(--rule);
+}
+
+.top-bar-role {
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.hero {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: calc(var(--bar-h) + 26px) 48px 40px;
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 24px;
+  border-bottom: 1px solid var(--rule);
+}
+
+.hero-title {
+  grid-column: 1 / span 9;
+  font-family: var(--serif);
+  font-size: clamp(36px, 5.5vw, 72px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.hero-title .line-1 { display: block; margin-bottom: 0.18em; }
+.hero-title .line-2a { display: block; font-style: italic; color: var(--accent-colour); margin-bottom: 0.1em; }
+.hero-title .line-2b { display: block; font-style: italic; color: var(--accent-colour); }
+
+.hero-body {
+  grid-column: 11 / span 5;
+  align-self: center;
+}
+
+.hero-body p {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink-mid);
+  margin-bottom: 18px;
+}
+
+.hero-body p:last-child {
+  margin-bottom: 0;
+}
+
+.hero-body .hero-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-mid);
+}
+
+.hero-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 160px));
+  gap: 24px 24px;
+  margin-top: 46px;
+  padding-bottom: 24px;
+}
+
+.hero-stat {
+  min-width: 0;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  display: block;
+}
+
+.hero-stats:has(.hero-stat:hover) .hero-stat:not(:hover) {
+  opacity: 0.15;
+}
+
+.hero-stat:hover {
+  transform: scale(1.01);
+}
+
+.hero-stat:hover .hero-stat-text {
+  font-weight: 500;
+  color: var(--accent-colour);
+}
+
+.hero-stat-icon,
+.hero-stat-number {
+  width: 32px;
+  height: 32px;
+  color: var(--accent-colour);
+  flex-shrink: 0;
+  margin-bottom: 8px;
+}
+
+.hero-stat-number {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 40px;
+  display: block;
+  letter-spacing: 0;
+  color: var(--accent-colour);
+}
+
+.hero-stat-icon {
+  display: block;
+}
+
+.hero-stat-text {
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--ink);
+  letter-spacing: 0;
+}
+
+.hero-scroll {
+  grid-column: 1 / span 4;
+  margin-top: 48px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  color: var(--muted);
+}
+.hero-scroll-line { width: 26px; height: 1px; background: var(--muted); }
+
+.section {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 40px 48px 56px;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1);
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.body-col {
+  grid-column: 1 / span 10;
+}
+
+.body-col p {
+  font-size: 16px;
+  line-height: 1.85;
+  color: var(--ink-mid);
+  margin-bottom: 22px;
+  text-align: left;
+}
+.body-col p:last-child { margin-bottom: 0; }
+
+.pull-quote {
+  grid-column: 12 / span 5;
+  align-self: start;
+  font-family: var(--serif);
+  font-size: clamp(28px, 3.4vw, 42px);
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--accent-colour);
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  pointer-events: none;
+  user-select: text;
+}
+
+.section-label {
+  font-size: 16px;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 24px;
+}
+
+/* Tab switcher */
+.tab-bar {
+  display: flex;
+  gap: 0;
+  margin-bottom: 40px;
+  margin-left: -48px;
+  margin-right: -48px;
+  padding-left: 48px;
+  padding-right: 48px;
+  border-bottom: 1px solid var(--rule);
+  padding-top: 24px;
+}
+
+.tab-btn {
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--muted);
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  padding: 0 0 12px;
+  margin-right: 32px;
+  margin-bottom: -1px;
+  cursor: pointer;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.tab-btn:hover { color: var(--ink); }
+
+.tab-btn.is-active {
+  color: var(--ink);
+  font-weight: 700;
+  border-bottom-color: var(--accent-colour);
+}
+
+.tab-panel { display: none; }
+.tab-panel.is-visible { display: block; }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 48px 24px;
+}
+
+.project-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  min-height: 100%;
+}
+
+.project-card:focus-visible {
+  outline: none;
+}
+
+.project-media {
+  position: relative;
+  aspect-ratio: 1312 / 900;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  background: #f0efec;
+}
+
+.project-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease, opacity 0.35s ease;
+}
+
+.project-card:hover .project-media img,
+.project-card:focus-visible .project-media img {
+  transform: scale(1.02);
+}
+
+.project-card:hover .project-name,
+.project-card:focus-visible .project-name {
+  color: #007d79;
+}
+
+.project-name {
+  margin-top: 14px;
+  font-family: var(--serif);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.project-desc {
+  margin-top: 8px;
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+/* Recognition tab */
+.recognition-awards {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 48px 24px;
+  margin-bottom: 56px;
+}
+
+.recognition-other {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  padding-top: 40px;
+  border-top: 1px solid var(--rule);
+}
+
+.recognition-other .project-media {
+  aspect-ratio: 4 / 3;
+}
+
+.rec-item {
+  min-width: 0;
+}
+
+.rec-item-image {
+  min-width: 0;
+}
+
+.rec-icon {
+  display: block;
+  color: var(--accent-colour);
+  margin-bottom: 12px;
+}
+
+.rec-img-placeholder {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #ededed;
+  border: 1px solid var(--rule);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 16px;
+}
+
+.rec-label {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.rec-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.rec-desc {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+
+.rec-quote {
+  font-family: var(--serif);
+  font-size: 16px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--ink-mid);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+
+footer {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 20px 48px 40px;
+  border-top: 1px solid var(--rule);
+  display: grid;
+  grid-template-columns: repeat(16, minmax(0, 1fr));
+  gap: 24px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+footer span:first-child { grid-column: 1 / span 8; }
+footer span:last-child { grid-column: 9 / span 8; text-align: right; }
+
+@media (max-width: 1084px) {
+  .hero-title { grid-column: 1 / -1; }
+  .hero-body {
+    grid-column: 1 / -1;
+    max-width: 56ch;
+  }
+  .hero-stats { margin-top: 16px; }
+}
+
+@media (max-width: 1020px) {
+  .hero-stats {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px 20px;
+  }
+  .hero-stat-icon,
+  .hero-stat-number {
+    width: 24px;
+    height: 24px;
+    margin-bottom: 6px;
+  }
+  .hero-stat-number {
+    font-size: 24px;
+    line-height: 30px;
+  }
+  .hero-stat-text {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+}
+
+/* At ≤700px the 16-col grid + 48px gutters cause body text overflow — collapse early */
+@media (max-width: 700px) {
+  .top-bar-inner, .hero, .section, footer { padding-left: 24px; padding-right: 24px; }
+  .tab-bar { margin-left: -24px; margin-right: -24px; padding-left: 24px; padding-right: 24px; }
+  .hero { min-height: 60vh; padding-bottom: 24px; }
+  .section { padding-top: 24px; padding-bottom: 28px; }
+  .hero, .section-grid, footer, .projects-grid { grid-template-columns: 1fr; }
+  .hero-title, .hero-body, .hero-stats, .body-col, .pull-quote, footer span:first-child, footer span:last-child { grid-column: auto; }
+  .hero-stats {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px 16px;
+  }
+  .hero-stat-text {
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .project-name { font-size: 24px; }
+  footer span:last-child { text-align: left; }
+  .recognition-awards { grid-template-columns: repeat(2, 1fr); gap: 32px 24px; }
+  .recognition-other { grid-template-columns: 1fr; gap: 32px; }
+  .recognition-other .project-media { aspect-ratio: 16 / 9; }
+  .tab-btn { font-size: 14px; margin-right: 24px; }
+}
+
+/* At ≤760px hide the "Curated with AI" right-hand label and shrink body text */
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+  .hero-body p {
+    font-size: 14px;
+  }
+}
+
+
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<script src="assets/top-bar.js"></script>
+
+<section class="hero">
+  <h1 class="hero-title">
+    <span class="line-1">I think in systems.</span>
+    <span class="line-1">I design for people.</span>
+    <span class="line-2b">That's what a design systems leader does.</span>
+  </h1>
+  <div class="hero-body">
+    <p>My career has moved between design systems leadership and product — deliberately. I've helped define IBM's design system, driven adoption across teams who didn't choose it, built the contribution and governance frameworks that kept it consistent at scale, and worked inside the product teams who depended on it. That back-and-forth is what shaped how I think: systems need to be led by people who know what it's like to be on the receiving end.</p>
+    <p>That perspective is what makes the difference between a system teams adopt and one they route around.</p>
+  </div>
+  <div class="hero-stats">
+    <a class="hero-stat" href="pages/carbon-migration.html">
+      <div class="hero-stat-number">8</div>
+      <div class="hero-stat-text">Migration lead for eight acquired products</div>
+    </a>
+    <a class="hero-stat" href="pages/figma-kit.html">
+      <svg class="hero-stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M23.6002 11.6C24.6002 11 25.3002 10.1 25.7002 9C26.1002 7.9 26.1002 6.8 25.8002 5.7C25.5002 4.6 24.8002 3.7 23.9002 3C23.0002 2.3 21.8002 2 20.7002 2H11.5002C10.3002 2 9.20017 2.4 8.30017 3C7.20017 3.7 6.60017 4.7 6.20017 5.7C5.90017 6.8 5.90017 8 6.30017 9C6.70017 10.1 7.40017 11 8.40017 11.6C7.70017 12.1 7.00017 12.7 6.60017 13.5C6.20017 14.3 6.00017 15.1 6.00017 16C6.00017 16.9 6.20017 17.7 6.60017 18.5C7.00017 19.3 7.60017 19.9 8.40017 20.4C7.40017 21 6.70017 21.9 6.30017 23C5.90017 24.1 5.90017 25.2 6.20017 26.3C6.50017 27.4 7.20017 28.3 8.20017 29C9.10017 29.7 10.3002 30 11.4002 30C12.8002 30 14.2002 29.4 15.3002 28.5C16.3002 27.5 16.9002 26.2 16.9002 24.8V20C17.9002 20.9 19.2002 21.4 20.5002 21.4H20.6002C21.8002 21.4 22.9002 21 23.8002 20.4C24.7002 19.7 25.4002 18.8 25.7002 17.7C26.0002 16.6 26.0002 15.5 25.6002 14.4C25.3002 13.1 24.5002 12.2 23.6002 11.6ZM16.9002 3.7H20.6002C21.1002 3.7 21.6002 3.7 22.0002 3.9C22.5002 4.1 22.9002 4.3 23.2002 4.7C23.6002 5 23.8002 5.4 24.0002 5.9C24.2002 6.4 24.3002 6.8 24.3002 7.3C24.3002 7.8 24.2002 8.3 24.0002 8.7C23.8002 9.1 23.5002 9.5 23.2002 9.9C22.8002 10.2 22.4002 10.5 22.0002 10.7C21.5002 10.9 21.0002 10.9 20.6002 10.9H16.9002V3.7ZM11.4002 3.7H15.1002V10.7H11.4002C10.5002 10.7 9.60017 10.3 9.00017 9.6C8.30017 9 8.00017 8.1 8.00017 7.2C8.00017 6.3 8.40017 5.4 9.00017 4.8C9.60017 4.2 10.5002 3.8 11.4002 3.7ZM7.80017 16C7.80017 15.1 8.20017 14.2 8.90017 13.5C9.60017 12.8 10.5002 12.5 11.5002 12.5H15.2002V19.5H11.5002C10.5002 19.5 9.60017 19.1 8.90017 18.5C8.20017 17.8 7.80017 16.9 7.80017 16ZM15.1002 24.7C15.1002 25.7 14.7002 26.6 14.0002 27.2C13.3002 27.9 12.4002 28.2 11.4002 28.2C10.9002 28.2 10.4002 28.2 10.0002 28C9.50017 27.8 9.10017 27.6 8.80017 27.3C8.40017 27 8.20017 26.6 8.00017 26.1C7.80017 25.7 7.70017 25.2 7.70017 24.7C7.70017 24.2 7.80017 23.7 8.00017 23.3C8.20017 22.9 8.50017 22.5 8.80017 22.1C9.20017 21.8 9.60017 21.5 10.0002 21.3C10.5002 21.1 11.0002 21.1 11.4002 21.1H15.1002V24.7ZM20.6002 19.7C20.1002 19.7 19.6002 19.6 19.2002 19.4C18.7002 19.2 18.3002 18.9 18.0002 18.6C17.6002 18.2 17.4002 17.8 17.2002 17.4C17.0002 16.9 16.9002 16.4 16.9002 15.9C16.9002 15.4 17.0002 14.9 17.2002 14.5C17.4002 14 17.7002 13.6 18.0002 13.3C18.4002 12.9 18.8002 12.7 19.2002 12.5C19.7002 12.3 20.2002 12.2 20.6002 12.2H20.7002C21.2002 12.2 21.7002 12.3 22.1002 12.5C22.6002 12.7 23.0002 13 23.3002 13.3C23.7002 13.7 23.9002 14.1 24.1002 14.5C24.3002 15 24.4002 15.5 24.4002 15.9C24.4002 16.4 24.3002 16.9 24.1002 17.3C23.9002 17.8 23.6002 18.2 23.3002 18.5C22.9002 18.9 22.5002 19.1 22.1002 19.3C21.7002 19.6 21.1002 19.7 20.6002 19.7Z"/></svg>
+      <div class="hero-stat-text">Led a team of 10 to build IBM's Figma foundation</div>
+    </a>
+    <a class="hero-stat" href="pages/developer-handoff-process.html">
+      <svg class="hero-stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect width="32" height="32" fill="none"/><path d="M20 15.1798L17.41 12.59L16 14L20 18L26 12L24.59 10.59L20 15.1798Z"/><path d="M10 18H8V20H10V18Z"/><path d="M12 9H7V11H11V13H8V16H10V15H12C12.5522 15 13 14.5522 13 14V10C13 9.4478 12.5522 9 12 9Z"/><path d="M17.7358 30L16 29L20 22H26C27.1071 22 28 21.1074 28 20V8C28 6.8926 27.1071 6 26 6H6C4.8929 6 4 6.8926 4 8V20C4 21.1074 4.8929 22 6 22H15V24H6C3.7907 24 2 22.21 2 20V8C2 5.7891 3.7907 4 6 4H26C28.2093 4 30 5.7891 30 8V20C30 22.21 28.2093 24 26 24H21.1646L17.7358 30Z"/></svg>
+      <div class="hero-stat-text">Surveyed 100 developers to find where design breaks</div>
+    </a>
+    <a class="hero-stat" href="pages/carbon-contributions.html">
+      <svg class="hero-stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect width="32" height="32" fill="none"/><path d="M26 7H24V6C23.9994 5.46975 23.7885 4.9614 23.4135 4.58646C23.0386 4.21152 22.5302 4.00061 22 4H10C9.46975 4.00061 8.9614 4.21152 8.58646 4.58646C8.21152 4.9614 8.00061 5.46975 8 6V7H6C5.46975 7.00061 4.9614 7.21152 4.58646 7.58646C4.21152 7.9614 4.00061 8.46975 4 9V12C4.00119 13.0605 4.423 14.0772 5.17289 14.8271C5.92278 15.577 6.9395 15.9988 8 16H8.322C8.73868 17.5307 9.59206 18.907 10.7779 19.9608C11.9638 21.0146 13.4309 21.7003 15 21.9341V26H10V28H22V26H17V21.9311C18.5895 21.7346 20.0828 21.0635 21.2851 20.0055C22.4875 18.9475 23.343 17.5516 23.74 16H24C25.0605 15.9988 26.0772 15.577 26.8271 14.8271C27.577 14.0772 27.9988 13.0605 28 12V9C27.9994 8.46975 27.7885 7.9614 27.4135 7.58646C27.0386 7.21152 26.5302 7.00061 26 7ZM8 14C7.46975 13.9994 6.9614 13.7885 6.58646 13.4135C6.21152 13.0386 6.00061 12.5502 6 12V9H8V14ZM22 14C22 14.8035 21.8386 15.5989 21.5254 16.3389C21.2121 17.0788 20.7534 17.7484 20.1765 18.3077C19.5996 18.867 18.9162 19.3048 18.1669 19.595C17.4176 19.8852 16.6177 20.0219 15.8145 19.9971C14.222 19.8983 12.7289 19.1893 11.6459 18.0177C10.5629 16.846 9.97339 15.3018 10 13.7065V6H22V14ZM26 12C25.9994 12.5302 25.7885 13.0386 25.4135 13.4135C25.0386 13.7885 24.5302 13.9994 24 14V9H26V12Z"/></svg>
+      <div class="hero-stat-text">Multi-award winning Carbon contributor</div>
+    </a>
+    <a class="hero-stat" href="pages/ai-patent.html">
+      <svg class="hero-stat-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M30,18A6,6,0,1,0,20,22.46v7.54l4-1.8926,4,1.8926V22.46A5.98,5.98,0,0,0,30,18Zm-4,8.84-2-.9467L22,26.84V23.65a5.8877,5.8877,0,0,0,4,0ZM24,22a4,4,0,1,1,4-4A4.0045,4.0045,0,0,1,24,22Z"/><rect x="9" y="14" width="7" height="2"/><rect x="9" y="8" width="10" height="2"/><path d="M6,30a2.0021,2.0021,0,0,1-2-2V4A2.0021,2.0021,0,0,1,6,2H22a2.0021,2.0021,0,0,1,2,2V8H22V4H6V28H16v2Z"/></svg>
+      <div class="hero-stat-text">1 filed AI patent</div>
+    </a>
+  </div>
+</section>
+
+<section class="section">
+
+  <!-- Work -->
+  <div class="projects-grid">
+
+      <a class="project-card" href="pages/carbon-migration.html">
+        <div class="project-media">
+          <img src="assets/Carbon%20migration.png" alt="Project preview for Carbon migration case study">
+        </div>
+        <p class="project-name">System adoption at scale — with teams who didn't choose it.</p>
+        <p class="project-desc">Eight products, nine months, one platform — strategy, governance, and earning trust from teams who didn't choose the system.</p>
+      </a>
+
+      <a class="project-card" href="pages/figma-kit.html">
+        <div class="project-media">
+          <img src="assets/Figma%20kit.png" alt="Project preview for Figma kit case study">
+        </div>
+        <p class="project-name">I led the team that gave IBM designers their design foundation.</p>
+        <p class="project-desc">30+ components, token architecture matched to the codebase, one lean team — and 165% adoption growth in five months.</p>
+      </a>
+
+      <a class="project-card" href="pages/developer-handoff-process.html">
+        <div class="project-media">
+          <img src="assets/Design%20delivery.png" alt="Project preview for governance and process case study">
+        </div>
+        <p class="project-name">Good design dies in handoff. I found out why — and changed it.</p>
+        <p class="project-desc">Research across 100 developers, a systemic finding, and three interventions that changed how IBM teams deliver design.</p>
+      </a>
+
+      <a class="project-card" href="pages/carbon-contributions.html">
+        <div class="project-media">
+          <img src="assets/Button%20guidance.png" alt="Project preview for components and patterns case study">
+        </div>
+        <p class="project-name">I found the gaps in the system and filled them.</p>
+        <p class="project-desc">Components, patterns, and guidance — contributions that shaped Carbon from the inside, not the top down.</p>
+      </a>
+
+      <a class="project-card" href="pages/product-gallery.html">
+        <div class="project-media">
+          <img src="assets/Product%20gallery.png" alt="Project preview for product gallery case study">
+        </div>
+        <p class="project-name">I built the infrastructure for design at scale.</p>
+        <p class="project-desc">A searchable gallery of IBM product experiences — making good design discoverable, reusable, and systematic.</p>
+      </a>
+
+      <a class="project-card" href="pages/product-work.html">
+        <div class="project-media">
+          <img src="assets/Product%20design.png" alt="Project preview for seven years in product case study">
+        </div>
+        <p class="project-name">I design products. I also use AI to ship code.</p>
+        <p class="project-desc">Seven years across five IBM products — and when the handoff wasn't working, I stopped handing off and contributed the fixes myself.</p>
+      </a>
+
+    </div>
+
+</section>
+
+
+<script>
+  const sections = document.querySelectorAll('.section');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+
+  sections.forEach((section) => observer.observe(section));
+
+</script>
+
+</body>
+</html>

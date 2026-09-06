@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laura Marshall — Cover Letter, SharkNinja</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+  --sans:  "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --ink:       #0f0f0f;
+  --ink-mid:   #2e2e2e;
+  --muted:     #767676;
+  --rule:      #e2e2e2;
+  --bg:        #fafaf8;
+  --accent:    #007d79;
+}
+
+html { background: var(--bg); }
+
+body {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* ── page wrapper ───────────────────────────────────── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 12mm 14mm 12mm;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ── header ─────────────────────────────────────────── */
+.cv-header {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  gap: 20px;
+  margin-bottom: 0;
+  padding-bottom: 12px;
+}
+
+.cv-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0 -14mm 24px;
+}
+
+.cv-name {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+
+.cv-role {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: 0;
+  margin-bottom: 1px;
+}
+
+.cv-contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--ink-mid);
+}
+
+.cv-contact-row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.cv-contact-label {
+  color: var(--muted);
+  min-width: 52px;
+}
+
+.cv-contact-value {
+  color: var(--accent);
+}
+
+/* ── letter body ────────────────────────────────────── */
+.letter-content {
+  max-width: 150mm;
+}
+
+.letter-meta {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.letter-body {
+  font-size: 11.5px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+}
+
+.letter-body p {
+  margin-bottom: 12px;
+}
+
+.letter-body p:last-child {
+  margin-bottom: 0;
+}
+
+.letter-salutation {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink);
+  margin-bottom: 16px;
+}
+
+.letter-sign-off {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--ink);
+  margin-top: 28px;
+}
+
+.letter-sign-name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--accent);
+  margin-top: 6px;
+  letter-spacing: -0.01em;
+}
+
+/* ── print ───────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 10mm 14mm; }
+  body  { background: #fff; margin: 0; }
+  .page {
+    width: 100%;
+    min-height: unset;
+    max-height: 277mm;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="cv-header">
+    <div>
+      <div class="cv-name">Laura Marshall</div>
+      <div class="cv-role">Design Systems Leader</div>
+    </div>
+    <div class="cv-contact">
+      <div class="cv-contact-row">
+        <span class="cv-contact-label">Portfolio</span>
+        <span class="cv-contact-value">lauramarshall.design</span>
+      </div>
+      <div class="cv-contact-row">
+        <span class="cv-contact-label">Contact</span>
+        <span class="cv-contact-value">lauraa.marshall@outlook.com<br>07531 759 386</span>
+      </div>
+    </div>
+  </header>
+  <hr class="cv-rule">
+
+  <!-- LETTER -->
+  <div class="letter-content">
+  <div class="letter-meta">UI Design System Lead, DTC &ensp;·&ensp; SharkNinja</div>
+
+  <div class="letter-salutation">Dear Hiring Manager,</div>
+
+  <div class="letter-body">
+
+    <p>I think in systems and I design for people. I've spent seven years moving between product design and design systems work deliberately, because systems built by people who've never depended on them have a harder time fixing, understanding and empathising with the teams who use them. My work in UX and UI design has been vital to shaping that mindset, but design systems is my passion and this role is the opportunity to move into that fully.</p>
+
+    <p>My design systems craft has centred on leading the build of IBM's Figma component library that enabled product teams to migrate from Sketch to Figma, adapting quickly as Figma variables launched to ensure the token architecture mapped accurately to what shipped in code (30+ components, 165% adoption growth in five months). Throughout my career I've made 5+ contributions to IBM's design system, identifying gaps through the products I worked on and driving fixes into system-level standards. One of those contributions was identifying a dark mode accessibility failure in the full page error pattern, fixing it, and seeing it adopted as guidance used across IBM. My design systems work has earned me five IBM awards over my career.</p>
+
+    <p>On a strategic level, I led the migration of eight newly acquired products onto IBM's design system in nine months, defining the governance model, building the compliance framework, and influencing teams who hadn't chosen the system and didn't have to listen.</p>
+
+    <p>On the engineering side, I researched why design breaks in handoff across 100+ developers, identified the root cause, and published guidance that changed how designers and engineers worked together across the whole organisation.</p>
+
+    <p>I've also started crossing the line into code directly. I used AI-assisted workflows to contribute HTML and CSS fixes into a live IBM product. I was the first designer in my organisation to work this way, and it's changed how I think about the boundary between design and engineering. It feels like exactly the kind of mindset SharkNinja is looking for.</p>
+
+    <p>After seven years in enterprise software, I'm ready for a new space and a new challenge. I'm genuinely excited by the prospect of working closer to the consumer, where the impact of good design is immediate and visible. The skills are ready. The context is new. That's what makes this interesting.</p>
+
+    <p>I'd welcome the opportunity to talk through how this could work in SharkNinja's context.</p>
+
+  </div>
+
+  <div class="letter-sign-off">Kind regards,</div>
+  <div class="letter-sign-name">Laura Marshall</div>
+
+  </div><!-- /letter-content -->
+
+</div>
+</body>
+</html>

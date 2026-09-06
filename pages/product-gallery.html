@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I built the infrastructure for design at scale.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left { display: flex; align-items: baseline; gap: 6px; }
+  .top-bar-right { font-size: 16px; color: var(--muted); text-align: right; }
+  .top-bar-name { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .top-bar-sep { font-size: 16px; color: var(--rule); }
+  .top-bar-role { font-size: 16px; font-weight: 400; color: var(--muted); }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p { font-family: var(--sans); font-size: 16px; line-height: 1.85; color: var(--ink-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item { grid-column: span 8; min-width: 0; }
+  .project-nav-item--left { grid-column: 1 / span 8; }
+  .project-nav-item--right { grid-column: 9 / span 8; }
+  .project-nav-label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover { color: #007d79; }
+
+  .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+  .stat-card { background: #f4f4f4; border: 1px solid var(--rule); border-radius: 4px; padding: 16px 18px; }
+  .stat-card-value { font-size: 28px; font-weight: 700; color: var(--ink); line-height: 1.2; margin-bottom: 4px; }
+  .stat-card-label { font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .research-findings { margin: 24px 0; }
+  .research-findings-title { font-size: 13px; font-weight: 700; color: var(--ink); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 10px; }
+  .research-finding-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .research-finding-bar-wrap { flex: 1; background: var(--rule); border-radius: 2px; height: 6px; }
+  .research-finding-bar { background: var(--accent); border-radius: 2px; height: 6px; }
+  .research-finding-label { font-size: 13px; color: var(--ink-mid); min-width: 0; flex: 2; }
+  .research-finding-count { font-size: 13px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .panel-quote-meta { margin-top: 12px; font-size: 14px; line-height: 1.5; }
+  .panel-quote-meta strong { display: block; color: var(--ink); font-weight: 700; }
+  .panel-quote-meta span { color: var(--muted); }
+
+  @media (max-width: 760px) { .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body { grid-column: 1 / span 6; min-width: 0; }
+  .panel-media { grid-column: 9 / span 8; width: 100%; min-width: 0; }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card { grid-column: span 8; min-width: 0; }
+  .panel-quote-award { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .panel-quote-award svg { display: block; }
+  .panel-quote-award-name { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .panel-quote { font-family: var(--serif); font-size: 24px; line-height: 1.5; color: var(--accent-colour); font-style: italic; }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track { display: flex; height: 100%; }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption-wrap { position: relative; flex: 1; min-width: 0; min-height: 4.5em; }
+  .media-carousel-caption { position: absolute; top: 0; left: 0; width: 100%; }
+  .media-carousel-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .media-carousel-subtitle { font-size: 14px; color: var(--ink); line-height: 1.85; }
+  .media-carousel-subtitle a { color: #007d79; text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s ease; }
+  .media-carousel-subtitle a:hover { color: var(--ink); }
+  .media-carousel-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .media-carousel-btn {
+    width: 24px; height: 24px; border: none; background: transparent;
+    color: var(--ink); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; transition: color 0.2s; line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots { display: flex; align-items: center; gap: 6px; }
+  .media-carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #c0c0c0; transition: background 0.2s; flex-shrink: 0; }
+  .media-carousel-dot.active { background: var(--ink); }
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-layout { grid-template-columns: 1fr; gap: 28px; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+  }
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>I built the infrastructure for design at scale.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Scope</strong>Thousands of designers · Hundreds of products</div>
+      <div class="meta-item"><strong>Recognition</strong>Carbon Champion Award 2024</div>
+      <div class="meta-item"><strong>Output</strong>Searchable product gallery</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>IBM Software spans thousands of designers across hundreds of products. Good design was happening everywhere — but teams had no way to see it. I identified the gap, validated it through research, and built the infrastructure to close it.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>Governance isn't just rules — it's making good practice visible and repeatable. This is a direct example of identifying a systemic gap, building the evidence for it, and shipping a scalable solution that the whole organisation could use.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The story</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">The problem</button>
+    <button class="nav-pill" onclick="switchTab(1)">The research</button>
+    <button class="nav-pill" onclick="switchTab(2)">The solution</button>
+    <button class="nav-pill" onclick="switchTab(3)">The impact</button>
+  </div>
+
+  <div class="panels">
+
+    <div class="section-panel is-visible" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The problem</h2>
+          <p>At that scale, duplication was inevitable. Teams were independently solving the same problems with no way to see what others had built. Design systems gave them the rules — but not the examples of how other products had actually put the pieces together.</p>
+          <p>The knowledge existed, spread across hundreds of product teams. It just wasn't findable — something I'd felt myself every time I tried to show a designer I was mentoring what good looked like beyond our own work.</p>
+          <p>The gallery had been wanted for years but never launched. No dedicated resource, and a contribution model that only worked if teams actually added to it — two blockers that had killed it every time before.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Product%20gallery.png" style="object-fit: cover; object-position: top left;" alt="Product Gallery — a searchable grid of IBM product screenshots organised by category."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">The gallery</p><p class="media-carousel-subtitle">What was needed: a single place where designers could browse exemplar product screens from across the IBM Software portfolio.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s2">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The research</h2>
+          <p>I interviewed 19 designers across visual, UX and research specialisms, factoring in tenure — newer designers and veterans were likely to need different things.</p>
+          <p>The concept was validated clearly. The most desired content was hi-fi screens, followed closely by end-to-end flows and clickable prototypes. Designers wanted to use the gallery primarily for inspiration and to reuse existing design concepts — confirming there was real demand for a shared reference, not just a nice-to-have. 11 out of 19 participants rated the concept 5/5 for value.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c2-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Product%20gallery%20research.png" style="object-fit: cover; object-position: top left;" alt="Product Gallery — research findings."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c2-cap-0" style="display:block"><p class="media-carousel-title">Research findings</p><p class="media-carousel-subtitle">19 designers interviewed across visual, UX and research — validating the concept and shaping what the gallery needed to contain.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s3">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The solution</h2>
+          <p>I led the initiative alongside another designer. With no development resource available, we explored a Figma plugin and IBM's internal site publisher — both hit blockers around dev dependency or ongoing maintenance.</p>
+          <p>Airtable solved it. Teams submit product screens through a short form, and the gallery can be iframed directly onto the design system site — no engineering needed. Crucially, it requires no maintenance once built. That mattered: my colleague and I were essentially volunteering to make this happen. We couldn't build something we'd be on the hook to keep running indefinitely.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c3-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Product%20gallery%20solution.png" style="object-fit: cover; object-position: top left;" alt="Product Gallery — Airtable solution."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c3-cap-0" style="display:block"><p class="media-carousel-title">Airtable gallery</p><p class="media-carousel-subtitle">The Airtable-based solution — self-service contribution, no engineering dependency, searchable and filterable by category.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote-award">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M26 7H24V6C23.9994 5.46975 23.7885 4.9614 23.4135 4.58646C23.0386 4.21152 22.5302 4.00061 22 4H10C9.46975 4.00061 8.9614 4.21152 8.58646 4.58646C8.21152 4.9614 8.00061 5.46975 8 6V7H6C5.46975 7.00061 4.9614 7.21152 4.58646 7.58646C4.21152 7.9614 4.00061 8.46975 4 9V12C4.00119 13.0605 4.423 14.0772 5.17289 14.8271C5.92278 15.577 6.9395 15.9988 8 16H8.322C8.73868 17.5307 9.59206 18.907 10.7779 19.9608C11.9638 21.0146 13.4309 21.7003 15 21.9341V26H10V28H22V26H17V21.9311C18.5895 21.7346 20.0828 21.0635 21.2851 20.0055C22.4875 18.9475 23.343 17.5516 23.74 16H24C25.0605 15.9988 26.0772 15.577 26.8271 14.8271C27.577 14.0772 27.9988 13.0605 28 12V9C27.9994 8.46975 27.7885 7.9614 27.4135 7.58646C27.0386 7.21152 26.5302 7.00061 26 7ZM8 14C7.46975 13.9994 6.9614 13.7885 6.58646 13.4135C6.21152 13.0386 6.00061 12.5302 6 12V9H8V14ZM22 14C22 14.8035 21.8386 15.5989 21.5254 16.3389C21.2121 17.0788 20.7534 17.7484 20.1765 18.3077C19.5996 18.867 18.9162 19.3048 18.1669 19.595C17.4176 19.8852 16.6177 20.0219 15.8145 19.9971C14.222 19.8983 12.7289 19.1893 11.6459 18.0177C10.5629 16.846 9.97339 15.3018 10 13.7065V6H22V14ZM26 12C25.9994 12.5302 25.7885 13.0386 25.4135 13.4135C25.0386 13.7885 24.5302 13.9994 24 14V9H26V12Z" fill="currentColor"/></svg>
+              <span class="panel-quote-award-name">Carbon Champion Award · 2024</span>
+            </div>
+            <div class="panel-quote">"For conducting research and creating the Product Gallery, which showcases design work from software products across the portfolio — fostering collaboration, consistency, and inspiration across teams."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s4">
+      <div class="panel-layout" style="align-items:center;">
+        <div class="panel-body">
+          <h2>The impact</h2>
+          <p>By surfacing exemplary designs and showing how teams use Carbon in practice, the gallery raises the baseline quality and consistency of IBM products — not through mandates, but by making the good work visible.</p>
+          <p>For designers, it reduces duplicated effort. Instead of solving the same problems from scratch, teams can reference, compare and reuse what others have already built — accelerating workflows and improving output quality.</p>
+          <p>Each submission is published with a name. For a community spread across the world, that's a way to connect with designers you'd otherwise never encounter.</p>
+        </div>
+        <div class="panel-media">
+          <div style="width:100%; display:flex; align-items:center; height:100%;">
+            <div style="padding:0; display:flex; flex-direction:column; justify-content:center;">
+              <p style="font-family:var(--serif); font-size:24px; line-height:1.6; color:#007d79; font-style:italic; margin-bottom:24px">&ldquo;Our designers and developers have been begging for a resource like this for years. Not only will the gallery accelerate design workflows, quality and consistency — we&rsquo;ll also be able to address gaps, measure usage and identify duplication of effort so much more quickly.&rdquo;</p>
+              <p style="font-size:14px; color:var(--muted)"><strong style="display:block; color:var(--ink); font-weight:700">Jean Servaas</strong>Design Principal, Carbon Design System</p>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote">"This gallery of work is poised to expedite our time to market and enhance the quality of our designs, promoting visibility, reducing duplication, ensuring consistency, and inspiring our designers."</div>
+            <div class="panel-quote-meta"><strong>Carmen Darlach</strong><span>Design Executive, Data &amp; AI platform</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="carbon-contributions.html">← I found the gaps in the system and filled them.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="product-work.html">I design products. I also use AI to ship code. →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var pills = document.querySelectorAll('.nav-pill');
+var panels = document.querySelectorAll('.section-panel');
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  panels.forEach(function(p) { p.classList.remove('is-visible'); });
+  pills[i].classList.add('is-active');
+  panels[i].classList.add('is-visible');
+}
+function carouselMove(id, dir) {
+  var track = document.getElementById(id + '-track');
+  var slides = track.children;
+  var dots = document.getElementById(id + '-dots').children;
+  var captions = track.closest('.media-carousel').querySelectorAll('[id^="' + id + '-cap-"]');
+  var current = 0;
+  for (var i = 0; i < slides.length; i++) {
+    if (slides[i].style.display !== 'none') { current = i; break; }
+  }
+  var next = (current + dir + slides.length) % slides.length;
+  slides[current].style.display = 'none';
+  slides[next].style.display = 'block';
+  dots[current].classList.remove('active');
+  dots[next].classList.add('active');
+  captions[current].style.display = 'none';
+  captions[next].style.display = 'block';
+}
+</script>
+</body>
+</html>

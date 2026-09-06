@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laura Marshall — CV</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+  --sans:  "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --ink:       #0f0f0f;
+  --ink-mid:   #2e2e2e;
+  --muted:     #767676;
+  --rule:      #e2e2e2;
+  --bg:        #fafaf8;
+  --accent:    #007d79;   /* IBM Teal 60 */
+}
+
+html { background: var(--bg); }
+
+body {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink);
+  background: var(--bg);
+}
+
+/* ── page wrapper ───────────────────────────────────── */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 12mm 14mm 12mm;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+/* ── header ─────────────────────────────────────────── */
+.cv-header {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  gap: 20px;
+  margin-bottom: 0;
+  padding-bottom: 12px;
+}
+
+.cv-rule {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin: 0 -14mm 16px;
+}
+
+.cv-name {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+  margin-bottom: 3px;
+}
+
+.cv-role {
+  font-family: var(--serif);
+  font-size: 13px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  letter-spacing: 0;
+  margin-bottom: 1px;
+}
+
+.cv-role-sub {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--muted);
+  letter-spacing: 0;
+}
+
+.cv-contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: 2px;
+  font-size: 12px;
+  color: var(--ink-mid);
+}
+
+.cv-contact-row {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.cv-contact-label {
+  color: var(--muted);
+  min-width: 52px;
+}
+
+.cv-contact-value {
+  color: var(--accent);
+}
+
+/* ── body: 8-col grid (5 left / 3 right) ────────────── */
+.cv-body {
+  display: grid;
+  grid-template-columns: 5fr 3fr;
+  column-gap: 20px;
+}
+
+.cv-col-left  { grid-column: 1; }
+.cv-col-right { grid-column: 2; }
+
+/* ── sections ───────────────────────────────────────── */
+.cv-section {
+  margin-bottom: 22px;
+}
+
+.cv-section-title {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+  text-transform: none;
+  letter-spacing: 0;
+  margin-top: 24px;
+  margin-bottom: 6px;
+  padding-bottom: 4px;
+}
+
+/* ── entries ─────────────────────────────────────────── */
+.cv-entry {
+  margin-bottom: 18px;
+}
+
+.cv-entry:last-child {
+  margin-bottom: 0;
+}
+
+.cv-entry-header {
+  margin-bottom: 1px;
+  line-height: 1.1;
+}
+
+.cv-entry-title {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  display: block;
+  line-height: 1.4;
+}
+
+.cv-entry-org {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink);
+  display: inline;
+  margin-left: 4px;
+}
+
+.cv-entry-meta {
+  font-family: var(--serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.cv-entry-body {
+  font-size: 11.5px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+}
+
+.cv-entry-body p {
+  margin-bottom: 12px;
+}
+
+.cv-entry-body p:last-child {
+  margin-bottom: 0;
+}
+
+/* bullet list */
+.cv-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cv-bullets li {
+  font-size: 11.5px;
+  color: var(--ink-mid);
+  line-height: 1.5;
+  padding-left: 12px;
+  position: relative;
+  margin-bottom: 2px;
+}
+
+.cv-bullets li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--ink-mid);
+}
+
+/* sub-heading within entry */
+.cv-entry-subhead {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1px;
+  margin-top: 4px;
+}
+
+/* italic inline */
+em {
+  font-style: italic;
+}
+
+/* quote styling */
+.cv-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 12px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+}
+
+/* ── print ───────────────────────────────────────────── */
+@media print {
+  @page { size: A4; margin: 10mm 14mm; }
+  body  { background: #fff; margin: 0; }
+  .page {
+    width: 100%;
+    min-height: unset;
+    max-height: 277mm;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+  .cv-header { page-break-after: avoid; break-after: avoid; }
+  .cv-body   { page-break-before: avoid; break-before: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="cv-header">
+    <div>
+      <div class="cv-name">Laura Marshall</div>
+      <div class="cv-role">Design Systems Leader</div>
+    </div>
+    <div class="cv-contact">
+      <div class="cv-contact-row">
+        <span class="cv-contact-label">Portfolio</span>
+        <span class="cv-contact-value">lauramarshall.design</span>
+      </div>
+      <div class="cv-contact-row">
+        <span class="cv-contact-label">Contact</span>
+        <span class="cv-contact-value">lauraa.marshall@outlook.com<br>07531 759 386</span>
+      </div>
+    </div>
+  </header>
+  <hr class="cv-rule">
+
+  <!-- BODY: two columns -->
+  <div class="cv-body">
+
+    <!-- LEFT COLUMN -->
+    <div class="cv-col-left">
+
+      <!-- Experience -->
+      <section class="cv-section">
+        <div class="cv-section-title">Experience</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Design Systems & Visual Design Lead</span>
+          </div>
+          <div class="cv-entry-meta" style="margin-bottom:1px;">IBM &ensp;·&ensp; 2019–present</div>
+          <div class="cv-role-sub" style="margin-bottom:4px;">Design systems · Product design</div>
+          <div class="cv-entry-body">
+            <p style="margin-bottom:8px;">Seven years at IBM building, contributing to, and driving adoption of the Carbon Design System at scale — while shipping features across enterprise products.</p>
+            <p class="cv-entry-subhead" style="margin-top:10px; margin-bottom:3px;">Career highlights include</p>
+            <ul class="cv-bullets">
+              <li>Leading a team of 10 designers to build the Carbon for IBM Products Figma kit from scratch — applying Carbon's token architecture, adapting quickly to Figma variables as they launched, defining the roadmap, reviewing all contributions, and shipping 30+ components with <strong>165% adoption growth</strong> in five months.</li>
+              <li>Researching design-to-development collaboration across <strong>100+ developers in 12 countries</strong> — identifying the cultural root cause, publishing guidance, and establishing practices that brought design and engineering into shared ownership earlier.</li>
+              <li>Leading a team of designers to migrate <strong>8 newly acquired products onto a shared design system in 9 months</strong> — defining the governance model, influencing teams who hadn't chosen the system, and building the compliance framework used to report progress to senior leadership.</li>
+              <li>Contributing many components and patterns to Carbon alongside my day job in product — including button guidance, full page errors (identified through an accessibility contrast gap in dark mode), tag overflow and grid influencers — identifying gaps through product work and driving them through the formal contribution process into system-level standards used across IBM.</li>
+              <li>Using AI-assisted workflows to contribute HTML and CSS fixes directly into production code — merged into a live IBM product — the first designer in my organisation to bridge design and code this way.</li>
+              <li>Designing an AI-driven radiology triage system — filed as a US patent in 2022 — applying machine learning to surface the most critical cases first, before AI tooling was a mainstream conversation in product.</li>
+              <li>Building IBM's Product Gallery — making good design visible and reusable across IBM's global design community.</li>
+              <li>Mentoring <strong>10+ designers</strong> across my career — on design systems, contribution processes, and visual design craft.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Industry Lecturer</span>
+          </div>
+          <div class="cv-entry-meta">University of Reading &ensp;·&ensp; 2019–2025</div>
+          <div class="cv-entry-body">
+            <p>For six years I led a compulsory second year app design module — covering user-centred design, design thinking, and helping students build design systems for their projects.</p>
+          </div>
+        </div>
+
+      <!-- Education -->
+      <section class="cv-section">
+        <div class="cv-section-title">Education</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">First Class – BA Graphic Communication</span>
+          </div>
+          <div class="cv-entry-meta">University of Reading &ensp;·&ensp; 2019</div>
+          <div class="cv-entry-body">
+            <p>Dissertation exploring Braille's relevance alongside emerging technological alternatives — later published as a piece of design research.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="cv-col-right">
+
+      <!-- Awards -->
+      <section class="cv-section">
+        <div class="cv-section-title">Awards</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Technical Collaboration Achievement Programme</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2023, 2024</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Recognition for significant contributions to Carbon for IBM Products and the broader open source ecosystem.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Growth Award</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Recognised for exceptional leadership delivering the Carbon for IBM Products Figma kit — essential to IBM's move to Figma, saving every team from recreating assets from scratch.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Carbon Champion</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022, 2024</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Recognised twice — for aligning Carbon components and guidance across product teams via the Design System Adoption Guild, and for creating the Product Gallery to foster consistency across IBM's design community.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">RockIT Award</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2019</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Best Newcomer. Recognised for a can-do, ask-why mentality and high quality visual design across product and community work.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Patents -->
+      <section class="cv-section">
+        <div class="cv-section-title">Patents</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Artificial Intelligence Prioritization of Abnormal Radiology Scans</span>
+          </div>
+          <div class="cv-entry-meta">United States Patent Office &ensp;·&ensp; 2022</div>
+          <div class="cv-entry-body">
+            <p>A machine learning system that pre-reads scans, surfaces the most critical image, and prioritises urgent cases by severity — before the radiologist opens anything.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Published research -->
+      <section class="cv-section">
+        <div class="cv-section-title">Published research</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Braille in an evolving technological world</span>
+          </div>
+          <div class="cv-entry-meta">Visible Language Journal &ensp;·&ensp; 2020</div>
+          <div class="cv-entry-body">
+            <p>Research into people's experiences of Braille as a reading method. Published in the oldest peer-reviewed design journal, with an acceptance rate below 20%.</p>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /right -->
+
+  </div><!-- /cv-body -->
+
+</div><!-- /page -->
+</body>
+</html>

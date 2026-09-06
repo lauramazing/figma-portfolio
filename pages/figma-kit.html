@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I led the team that gave IBM designers their design foundation.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left { display: flex; align-items: baseline; gap: 6px; }
+  .top-bar-right { font-size: 16px; color: var(--muted); text-align: right; }
+  .top-bar-name { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .top-bar-sep { font-size: 16px; color: var(--rule); }
+  .top-bar-role { font-size: 16px; font-weight: 400; color: var(--muted); }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p { font-family: var(--sans); font-size: 16px; line-height: 1.85; color: var(--ink-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item { grid-column: span 8; min-width: 0; }
+  .project-nav-item--left { grid-column: 1 / span 8; }
+  .project-nav-item--right { grid-column: 9 / span 8; }
+  .project-nav-label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover { color: #007d79; }
+
+  .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body { grid-column: 1 / span 6; min-width: 0; }
+  .panel-media { grid-column: 9 / span 8; width: 100%; min-width: 0; }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card { grid-column: span 8; min-width: 0; }
+  .panel-quote-award { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .panel-quote-award svg { display: block; }
+  .panel-quote-award-name { font-size: 16px; font-weight: 700; color: var(--ink); line-height: 1.4; }
+  .panel-quote { font-family: var(--serif); font-size: 24px; line-height: 1.5; color: var(--accent-colour); font-style: italic; }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track { display: flex; height: 100%; }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption-wrap { position: relative; flex: 1; min-width: 0; min-height: 4.5em; }
+  .media-carousel-caption { position: absolute; top: 0; left: 0; width: 100%; }
+  .media-carousel-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .media-carousel-subtitle { font-size: 14px; color: var(--ink); line-height: 1.85; }
+  .media-carousel-subtitle a { color: #007d79; text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s ease; }
+  .media-carousel-subtitle a:hover { color: var(--ink); }
+  .media-carousel-controls { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .media-carousel-btn {
+    width: 24px; height: 24px; border: none; background: transparent;
+    color: var(--ink); font-size: 18px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0; transition: color 0.2s; line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots { display: flex; align-items: center; gap: 6px; }
+  .media-carousel-dot { width: 8px; height: 8px; border-radius: 50%; background: #c0c0c0; transition: background 0.2s; flex-shrink: 0; }
+  .media-carousel-dot.active { background: var(--ink); }
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-layout { grid-template-columns: 1fr; gap: 28px; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+  }
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>I led the team that gave IBM designers their design foundation.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Components delivered</strong>30+</div>
+      <div class="meta-item"><strong>Adoption growth</strong>165% in 5 months</div>
+      <div class="meta-item"><strong>Recognition</strong>Growth Award 2022</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>IBM's move from Sketch to Figma left Carbon for IBM Products without a kit. I led a team of 10 to build it from scratch — 30+ components, no prior Figma experience on my part, two major platform transitions, and 165% adoption growth in five months.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>Platform-level delivery under pressure — leading a team, making the right trade-offs, shipping something the whole organisation could rely on, and tracking adoption as the measure of success.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The story</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">The challenge</button>
+    <button class="nav-pill" onclick="switchTab(1)">How we built it</button>
+    <button class="nav-pill" onclick="switchTab(2)">The result</button>
+  </div>
+
+  <div class="panels">
+
+    <div class="section-panel is-visible" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The challenge</h2>
+          <p>IBM's move from Sketch to Figma meant Carbon for IBM Products needed a complete Figma kit — fast. Without one, design delivery would halt for thousands of designers. There was no kit and no team assigned to build one. I pulled together a team of 10 product designers — none of them design systems specialists, all volunteering time alongside their day jobs. Quality and speed were both non-negotiable.</p>
+          <p>Carbon 11 — the next major version of the design system — was already underway as we built. We needed kits for both versions to support teams transitioning at different times.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Figma%20kit.png" style="object-fit: cover; object-position: top left;" alt="Carbon for IBM Products Figma kit — component library in Figma."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">The scale of the challenge</p><p class="media-carousel-subtitle">Two major transitions — Sketch to Figma, then Carbon 10 to Carbon 11 — with a lean team and a hard deadline.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s2">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>How we built it</h2>
+          <p>The foundation wasn't just the components — it was the token layer underneath them. We mapped every component to Carbon's design token architecture using Figma variables, so colour and typography were driven by tokens rather than hardcoded values. That kept design and code in sync, enabled theme switching, and made the kit fast to evolve as the system changed.</p>
+          <p>Leading meant balancing empathy with rigour. I matched complexity to capability, reviewed every submission, and redistributed components when product deadlines pulled people away rather than let quality slip.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c2-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Figma%20kit%20asset%20tracker.png" style="object-fit: cover; object-position: top left;" alt="Figma kit asset tracker — spreadsheet used to coordinate component assignments across the team."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c2-cap-0" style="display:block"><p class="media-carousel-title">Asset tracker</p><p class="media-carousel-subtitle">How I coordinated 10 designers across 30+ components — each component assigned, tracked, and reviewed to make sure nothing fell through the gaps.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s3">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The result</h2>
+          <p>Launched in July 2022, the kit reached 12,848 weekly component inserts by December — a 165% growth in usage over five months. Designers across IBM Software had a trusted Figma foundation from day one of the migration. The library has evolved since, but is still used daily by product teams.</p>
+          <p>What surprised me most was the team. A group of strangers spread across the world became people who could genuinely depend on each other. It was the project that built my love of design systems.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c3-track">
+                <div class="media-carousel-slide" style="display:block; background:#ffffff;"><img src="../assets/Figma kit.jpg" style="object-fit: contain; object-position: center;" alt="Figma kit adoption stats — 12,848 weekly component inserts, 165% growth."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c3-cap-0" style="display:block"><p class="media-carousel-title">Carbon for IBM Products Wrapped</p><p class="media-carousel-subtitle">Launched July 2022 — 12,848 weekly component inserts and 165% usage growth by December.</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote-award">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M26 7H24V6C23.9994 5.46975 23.7885 4.9614 23.4135 4.58646C23.0386 4.21152 22.5302 4.00061 22 4H10C9.46975 4.00061 8.9614 4.21152 8.58646 4.58646C8.21152 4.9614 8.00061 5.46975 8 6V7H6C5.46975 7.00061 4.9614 7.21152 4.58646 7.58646C4.21152 7.9614 4.00061 8.46975 4 9V12C4.00119 13.0605 4.423 14.0772 5.17289 14.8271C5.92278 15.577 6.9395 15.9988 8 16H8.322C8.73868 17.5307 9.59206 18.907 10.7779 19.9608C11.9638 21.0146 13.4309 21.7003 15 21.9341V26H10V28H22V26H17V21.9311C18.5895 21.7346 20.0828 21.0635 21.2851 20.0055C22.4875 18.9475 23.343 17.5516 23.74 16H24C25.0605 15.9988 26.0772 15.577 26.8271 14.8271C27.577 14.0772 27.9988 13.0605 28 12V9C27.9994 8.46975 27.7885 7.9614 27.4135 7.58646C27.0386 7.21152 26.5302 7.00061 26 7ZM8 14C7.46975 13.9994 6.9614 13.7885 6.58646 13.4135C6.21152 13.0386 6.00061 12.5302 6 12V9H8V14ZM22 14C22 14.8035 21.8386 15.5989 21.5254 16.3389C21.2121 17.0788 20.7534 17.7484 20.1765 18.3077C19.5996 18.867 18.9162 19.3048 18.1669 19.595C17.4176 19.8852 16.6177 20.0219 15.8145 19.9971C14.222 19.8983 12.7289 19.1893 11.6459 18.0177C10.5629 16.846 9.97339 15.3018 10 13.7065V6H22V14ZM26 12C25.9994 12.5302 25.7885 13.0386 25.4135 13.4135C25.0386 13.7885 24.5302 13.9994 24 14V9H26V12Z" fill="currentColor"/></svg>
+              <span class="panel-quote-award-name">Growth Award · 2022</span>
+            </div>
+            <div class="panel-quote">"Laura demonstrated exceptional leadership delivering the Figma kit with a small team — and was a key contributor to the asset creation, delivered in time for designers' migration to Figma."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="carbon-migration.html">← System adoption at scale — with teams who didn&#39;t choose it.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="developer-handoff-process.html">Good design dies in handoff. I found out why — and changed it. →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var pills = document.querySelectorAll('.nav-pill');
+var panels = document.querySelectorAll('.section-panel');
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  panels.forEach(function(p) { p.classList.remove('is-visible'); });
+  pills[i].classList.add('is-active');
+  panels[i].classList.add('is-visible');
+}
+function carouselMove(id, dir) {
+  var track = document.getElementById(id + '-track');
+  var slides = track.children;
+  var dots = document.getElementById(id + '-dots').children;
+  var captions = track.closest('.media-carousel').querySelectorAll('[id^="' + id + '-cap-"]');
+  var current = 0;
+  for (var i = 0; i < slides.length; i++) {
+    if (slides[i].style.display !== 'none') { current = i; break; }
+  }
+  var next = (current + dir + slides.length) % slides.length;
+  slides[current].style.display = 'none';
+  slides[next].style.display = 'block';
+  dots[current].classList.remove('active');
+  dots[next].classList.add('active');
+  captions[current].style.display = 'none';
+  captions[next].style.display = 'block';
+}
+</script>
+</body>
+</html>

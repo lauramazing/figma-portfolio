@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I found the gaps in the system and filled them.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .top-bar-right {
+    font-size: 16px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .top-bar-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .top-bar-sep {
+    font-size: 16px;
+    color: var(--rule);
+  }
+
+  .top-bar-role {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--ink);
+  }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: 0; text-transform: none; }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    white-space: pre-line;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .project-nav-item--left {
+    grid-column: 1 / span 8;
+  }
+  .project-nav-item--right {
+    grid-column: 9 / span 8;
+  }
+  .project-nav-label {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover {
+    color: #007d79;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body {
+    grid-column: 1 / span 6;
+    min-width: 0;
+  }
+  .panel-media {
+    grid-column: 9 / span 8;
+    width: 100%;
+    min-width: 0;
+  }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .panel-quote-award {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .panel-quote-award svg {
+    display: block;
+  }
+  .panel-quote-award-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .panel-quote {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--accent-colour);
+    font-style: italic;
+  }
+  .panel-quote-meta {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .panel-quote-meta strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .panel-img {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: block;
+    overflow: hidden;
+  }
+  .panel-img svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .panel-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img,
+  .media-carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption-wrap { position: relative; flex: 1; min-width: 0; min-height: 4.5em; }
+  .media-carousel-caption { position: absolute; top: 0; left: 0; width: 100%; }
+  .media-carousel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .media-carousel-subtitle a {
+    color: #007d79;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    transition: color 0.2s ease;
+  }
+  .media-carousel-subtitle a:hover { color: var(--ink); }
+  .media-carousel-subtitle {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.85;
+  }
+  .media-carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .media-carousel-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .media-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c0c0c0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .media-carousel-dot.active { background: var(--ink); }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 6px;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+  }
+  .media-grid-item {
+    position: relative;
+    min-height: 0;
+    background: #d6d6d6;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .media-grid-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .media-grid:hover .media-grid-item::after { opacity: 0.55; }
+  .media-grid:hover .media-grid-item:hover::after { opacity: 0; }
+
+  .media-grid-expanded {
+    display: none;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    background: #d6d6d6;
+    overflow: hidden;
+  }
+  .media-grid-expanded.open { display: block; }
+  .media-grid-expanded img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-expanded-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--muted);
+  }
+  .media-grid-expanded-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: background 0.15s;
+  }
+  .media-grid-expanded-close:hover { background: #fff; }
+
+
+  /* 404 light/dark split */
+  .error-split-light {
+    clip-path: inset(0 50% 0 0);
+    transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .error-split-dark {
+    clip-path: inset(0 0 0 50%);
+    transition: clip-path 0.6s cubic-bezier(0.16,1,0.3,1);
+  }
+  .error-split-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: #ffffff;
+    opacity: 0.6;
+    transform: translateX(-50%);
+    transition: left 0.6s cubic-bezier(0.16,1,0.3,1);
+    pointer-events: none;
+  }
+  .error-split:hover .error-split-light {
+    clip-path: inset(0 65% 0 0);
+  }
+  .error-split:hover .error-split-dark {
+    clip-path: inset(0 0 0 35%);
+  }
+  .error-split:hover .error-split-line {
+    left: 35%;
+  }
+
+  .overview-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 48px;
+    padding-bottom: 8px;
+  }
+  .overview-col h2.overview-heading {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .overview-col p {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    margin-bottom: 16px;
+  }
+  .overview-col p:last-child { margin-bottom: 0; }
+  .overview-col strong { color: var(--ink); font-weight: 700; }
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-layout { grid-template-columns: 1fr; gap: 28px; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+    .panel-img, .panel-img-placeholder { min-height: 240px; }
+    .overview-layout { grid-template-columns: 1fr; gap: 32px; }
+  }
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>I found the gaps in the system and filled them.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Contributions</strong>5+ components, patterns &amp; guidance</div>
+      <div class="meta-item"><strong>Recognition</strong>5 awards</div>
+      <div class="meta-item"><strong>Scope</strong>Core Carbon + IBM Products</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>I contributed components and patterns to Carbon from inside the product teams using it — finding the gaps, proposing fixes, and seeing them adopted as system-level standards.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>A design systems lead needs to spot system-level gaps and turn them into shared standards. This shows exactly that — identifying real problems in product, working through the contribution process, and seeing the work elevated into Carbon core.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The contributions</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">Overview</button>
+    <button class="nav-pill" onclick="switchTab(1)">Button guidance</button>
+    <button class="nav-pill" onclick="switchTab(2)">Full page errors</button>
+    <button class="nav-pill" onclick="switchTab(3)">Tag overflow</button>
+    <button class="nav-pill" onclick="switchTab(4)">Grid influencers</button>
+  </div>
+
+  <div class="panels">
+    <div class="section-panel is-visible" id="s0">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Overview</h2>
+          <p>Carbon is IBM's open-source design system. It sits at two levels: <strong>Carbon core</strong> sets the foundations; <strong>Carbon for IBM Products</strong> extends them for enterprise product teams.</p>
+          <p>Contributions work bottom-up — designers embedded in product teams spot gaps and propose changes through a formal process. If accepted, product-level fixes become system-level standards.</p>
+          <p>All of this work happened outside my day job as a visual designer embedded in product. I did it because I was passionate about design systems and wanted to make things that helped other designers work better.</p>
+        </div>
+        <div class="panel-media">
+          <div class="panel-img">
+            <img src="../assets/Carbon for IBM Products site.png" alt="Carbon for IBM Products website — component documentation and pattern guidance." style="width:100%; height:100%; object-fit:cover; object-position:top left;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+        <div class="section-panel" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Button guidance</h2>
+          <p>The problem wasn't the button component — it was how teams were using it. Primary buttons appeared everywhere, placement varied between products, and the same component produced vastly different experiences.</p>
+          <p>I identified the pain points, then recruited a small team to fix them. Together we created guidance covering the decisions the component docs didn't answer: which button should be primary, where they should sit, how many belong on a page, and how to maintain hierarchy.</p>
+          <p>The guidance later influenced Carbon's core button content, turning product-level lessons into system-level standards.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+               <div class="media-carousel-slide" style="display:block;"><img src="../assets/Primary-button-dont.jpg" style="object-position: top;" alt="Don't: two primary buttons appearing on the same page across different zones, creating competing focal points with no clear hierarchy."></div>
+               <div class="media-carousel-slide" style="display:none;"><img src="../assets/Button guidance.jpg" style="object-fit: contain; object-position: center;" alt="Carbon for IBM Products button guidance — six pattern and component cards covering primary buttons, tertiary and ghost buttons, icons on buttons, placement and alignment, button groups, and menu and combo buttons."></div>
+               <div class="media-carousel-slide" style="display:none;"><img src="../assets/Menu%20and%20combo%20buttons.jpg" style="object-fit: cover; object-position: center;" alt="Carbon for IBM Products documentation page for Menu and combo buttons — covering when to use a menu button versus a combo button, grouping objects with the same common action, and component usage examples."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">The problem</p><p class="media-carousel-subtitle">Multiple primary buttons on the same page — a pattern across many products. The Sketch defaults made it the path of least resistance.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-1" style="display:none"><p class="media-carousel-title">The guidance overview</p><p class="media-carousel-subtitle">Button guidance published on Carbon for IBM Products — covering primary buttons, hierarchy, placement, and menu and combo buttons.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-2" style="display:none"><p class="media-carousel-title">Menu and combo buttons</p><p class="media-carousel-subtitle">Guidance for grouping actions — when to use a menu button, when to use a combo button, and how they differ.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c1-prev" aria-label="Previous slide" onclick="carouselMove('c1',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c1-dots">
+                  <span class="media-carousel-dot active"></span>
+                  <span class="media-carousel-dot"></span>
+                  <span class="media-carousel-dot"></span>
+                </div>
+                <button class="media-carousel-btn" id="c1-next" aria-label="Next slide" onclick="carouselMove('c1',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote-award">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M26 7H24V6C23.9994 5.46975 23.7885 4.9614 23.4135 4.58646C23.0386 4.21152 22.5302 4.00061 22 4H10C9.46975 4.00061 8.9614 4.21152 8.58646 4.58646C8.21152 4.9614 8.00061 5.46975 8 6V7H6C5.46975 7.00061 4.9614 7.21152 4.58646 7.58646C4.21152 7.9614 4.00061 8.46975 4 9V12C4.00119 13.0605 4.423 14.0772 5.17289 14.8271C5.92278 15.577 6.9395 15.9988 8 16H8.322C8.73868 17.5307 9.59206 18.907 10.7779 19.9608C11.9638 21.0146 13.4309 21.7003 15 21.9341V26H10V28H22V26H17V21.9311C18.5895 21.7346 20.0828 21.0635 21.2851 20.0055C22.4875 18.9475 23.343 17.5516 23.74 16H24C25.0605 15.9988 26.0772 15.577 26.8271 14.8271C27.577 14.0772 27.9988 13.0605 28 12V9C27.9994 8.46975 27.7885 7.9614 27.4135 7.58646C27.0386 7.21152 26.5302 7.00061 26 7V7ZM8 14C7.46975 13.9994 6.9614 13.7885 6.58646 13.4135C6.21152 13.0386 6.00061 12.5302 6 12V9H8V14ZM22 14C22 14.8035 21.8386 15.5989 21.5254 16.3389C21.2121 17.0788 20.7534 17.7484 20.1765 18.3077C19.5996 18.867 18.9162 19.3048 18.1669 19.595C17.4176 19.8852 16.6177 20.0219 15.8145 19.9971C14.222 19.8983 12.7289 19.1893 11.6459 18.0177C10.5629 16.846 9.97339 15.3018 10 13.7065V6H22V14ZM26 12C25.9994 12.5302 25.7885 13.0386 25.4135 13.4135C25.0386 13.7885 24.5302 13.9994 24 14V9H26V12Z" fill="#161616"/></svg>
+              <span class="panel-quote-award-name">Carbon Champion Award · 2022</span>
+            </div>
+            <div class="panel-quote">"Special shout out to Laura for a significant amount of work on button guidance — helping to align Carbon components, patterns, and guidance across multiple product teams."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s2">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Full page errors</h2>
+          <p>Guidance for full page errors existed — but it had real problems. The illustrations were out of date, they didn't scale to smaller screens, and they didn't support dark mode, which was in active use across the entire Security portfolio.</p>
+          <p>I led a small team to create new illustrations and updated guidance to help designers adopt full page errors more consistently.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c2-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Updated 403 Error (In Context).png" style="object-fit:cover; object-position:left top;" alt="The previous full page error pattern — outdated illustrations with no dark mode or responsive support."></div>
+                <div class="media-carousel-slide error-split" style="display:none; position:relative; overflow:hidden; background:#161616;">
+                  <img class="error-split-light" src="../assets/403-light4.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:left center;" alt="403 Access denied error page — light theme">
+                  <img class="error-split-dark" src="../assets/403-dark4.jpg" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:left center;" alt="403 Access denied error page — dark theme">
+                  <div class="error-split-line"></div>
+                </div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c2-cap-0" style="display:block"><p class="media-carousel-title">Before</p><p class="media-carousel-subtitle">The existing pattern — outdated illustrations that didn't respond to dark mode. In dark UI, illustrations failed accessibility requirements and focal points were lost entirely, as the images were identical to the light theme.</p></div>
+                <div class="media-carousel-caption" id="c2-cap-1" style="display:none"><p class="media-carousel-title">After — light &amp; dark</p><p class="media-carousel-subtitle">New illustrations and guidance covering dark mode, responsive behaviour, and product edge cases.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c2-prev" aria-label="Previous slide" onclick="carouselMove('c2',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c2-dots">
+                  <span class="media-carousel-dot active"></span>
+                  <span class="media-carousel-dot"></span>
+                </div>
+                <button class="media-carousel-btn" id="c2-next" aria-label="Next slide" onclick="carouselMove('c2',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s3">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Tag overflow</h2>
+          <p>There was existing guidance for tag sets, including how to overflow tags when there wasn't enough room on screen. But there was a gap: what about other elements that needed the same overflow behaviour?</p>
+          <p>I extended the existing guidance to cover those scenarios — adding user overflow and others, based on the needs of real products.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c3-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/tag overflow.jpg" style="object-fit: cover; object-position: center;" alt="Tag overflow pattern — truncated tag list with overflow count indicator."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c3-cap-0" style="display:block"><p class="media-carousel-title">Tag overflow</p><p class="media-carousel-subtitle">Extended the tag pattern to support overflow scenarios, creating a more scalable solution for tags, users, and related content.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c3-prev" aria-label="Previous slide" onclick="carouselMove('c3',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c3-dots">
+                  <span class="media-carousel-dot active"></span>
+                </div>
+                <button class="media-carousel-btn" id="c3-next" aria-label="Next slide" onclick="carouselMove('c3',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s4">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Grid influencers</h2>
+          <p>Carbon's grid guidance covered the standard layout — but teams building fixed-navigation experiences had no guidance for how side panels and left-nav patterns should interact with the grid.</p>
+          <p>I created detailed guidance and Figma assets for grid influencers: fixed UI elements that alter the available content area without disrupting the underlying grid structure.</p>
+          <p>The work was contributed upward and is now reflected in Carbon's core grid guidance — turning a product-level gap into a system-level standard.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c4-track">
+                <div class="media-carousel-slide" style="display:block;"><img src="../assets/Screenshot 2026-07-28 at 15.55.57.jpg" style="object-fit: cover; object-position: top left;" alt="Grid influencers — guidance and Figma assets for fixed-navigation layouts."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c4-cap-0" style="display:block"><p class="media-carousel-title">Grid influencers</p><p class="media-carousel-subtitle">Guidance and Figma assets for fixed-navigation layouts the existing grid guidance didn't cover — contributed upwards and now reflected in <a href="https://carbondesignsystem.com/elements/2x-grid/usage/" target="_blank" rel="noopener">Carbon's core grid guidance ↗</a>.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c4-prev" aria-label="Previous slide" onclick="carouselMove('c4',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c4-dots">
+                  <span class="media-carousel-dot active"></span>
+                </div>
+                <button class="media-carousel-btn" id="c4-next" aria-label="Next slide" onclick="carouselMove('c4',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="developer-handoff-process.html">← Good design dies in handoff. I found out why — and changed it.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="product-gallery.html">I built the infrastructure for design at scale. →</a>
+    </div>
+  </div>
+</div>
+<script>
+var pills = document.querySelectorAll('.nav-pill');
+var panels = document.querySelectorAll('.section-panel');
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  panels.forEach(function(p) { p.classList.remove('is-visible'); });
+  pills[i].classList.add('is-active');
+  panels[i].classList.add('is-visible');
+}
+function playOverviewVideo() {
+  var video = document.getElementById('overview-video');
+  var btn = document.getElementById('overview-play-btn');
+  if (video.paused) {
+    video.play();
+    btn.style.display = 'none';
+  } else {
+    video.pause();
+    btn.style.display = 'flex';
+  }
+}
+/* Hide carousel controls when there is only one slide */
+(function () {
+  document.querySelectorAll('.media-carousel').forEach(function (carousel) {
+    var slides = carousel.querySelectorAll('.media-carousel-slide');
+    if (slides.length <= 1) {
+      var controls = carousel.querySelector('.media-carousel-controls');
+      if (controls) controls.style.display = 'none';
+    }
+  });
+}());
+function carouselMove(id, dir) {
+  var track = document.getElementById(id + '-track');
+  var slides = track.children;
+  var dots = document.getElementById(id + '-dots').children;
+  var captions = track.closest('.media-carousel').querySelectorAll('[id^="' + id + '-cap-"]');
+  var current = 0;
+  for (var i = 0; i < slides.length; i++) {
+    if (slides[i].style.display !== 'none') { current = i; break; }
+  }
+  var next = (current + dir + slides.length) % slides.length;
+  slides[current].style.display = 'none';
+  slides[next].style.display = 'block';
+  dots[current].classList.remove('active');
+  dots[next].classList.add('active');
+  captions[current].style.display = 'none';
+  captions[next].style.display = 'block';
+}
+(function () {
+  var el = document.querySelector('.error-split');
+  if (!el) return;
+  /* The error-split panel may start hidden; bind events anyway */
+  var light = el.querySelector('.error-split-light');
+  var dark  = el.querySelector('.error-split-dark');
+  var line  = el.querySelector('.error-split-line');
+
+  function setSplit(pct) {
+    var r = Math.round(pct);
+    var l = 100 - r;
+    light.style.clipPath = 'inset(0 ' + r + '% 0 0)';
+    dark.style.clipPath  = 'inset(0 0 0 ' + l + '%)';
+    line.style.left      = l + '%';
+  }
+
+  var SNAP_ZONE = 160; /* px — hold edge within this distance */
+  var lastPct = 50;
+  var resetTimer = null;
+
+  function applyTransition() {
+    light.style.transition = 'clip-path 0.6s cubic-bezier(0.16,1,0.3,1)';
+    dark.style.transition  = 'clip-path 0.6s cubic-bezier(0.16,1,0.3,1)';
+    line.style.transition  = 'left 0.6s cubic-bezier(0.16,1,0.3,1)';
+  }
+
+  function clearTransition() {
+    light.style.transition = 'none';
+    dark.style.transition  = 'none';
+    line.style.transition  = 'none';
+  }
+
+  el.addEventListener('mousemove', function (e) {
+    if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+    var rect = el.getBoundingClientRect();
+    var pct  = ((e.clientX - rect.left) / rect.width) * 100;
+    pct = Math.max(0, Math.min(100, pct));
+    clearTransition();
+    lastPct = 100 - pct;
+    setSplit(lastPct);
+  });
+
+  function nearEdge(e, rect) {
+    var buf = SNAP_ZONE;
+    var inVertical = e.clientY >= rect.top - buf && e.clientY <= rect.bottom + buf;
+    var nearLeft   = e.clientX >= rect.left  - buf && e.clientX <  rect.left;
+    var nearRight  = e.clientX >  rect.right       && e.clientX <= rect.right + buf;
+    return inVertical && (nearLeft || nearRight);
+  }
+
+  el.addEventListener('mouseleave', function (e) {
+    var rect = el.getBoundingClientRect();
+    if (nearEdge(e, rect)) {
+      /* leaving through left/right edge — hold position */
+      if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+      return;
+    }
+    /* leaving top/bottom — schedule reset */
+    if (resetTimer) clearTimeout(resetTimer);
+    resetTimer = setTimeout(function () {
+      applyTransition();
+      setSplit(50);
+      resetTimer = null;
+    }, 80);
+  });
+
+  document.addEventListener('pointermove', function (e) {
+    var rect = el.getBoundingClientRect();
+    if (nearEdge(e, rect)) {
+      /* hovering just outside left/right — cancel any pending reset */
+      if (resetTimer) { clearTimeout(resetTimer); resetTimer = null; }
+    } else if (resetTimer === null) {
+      /* moved far away while outside — trigger reset if not already pending */
+      var outside = e.clientX < rect.left - SNAP_ZONE || e.clientX > rect.right + SNAP_ZONE
+                 || e.clientY < rect.top  - SNAP_ZONE || e.clientY > rect.bottom + SNAP_ZONE;
+      if (outside) {
+        resetTimer = setTimeout(function () {
+          applyTransition();
+          setSplit(50);
+          resetTimer = null;
+        }, 80);
+      }
+    }
+  });
+}());
+</script>
+</body>
+</html>

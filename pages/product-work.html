@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>I design products. I also use AI to ship code.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .top-bar-right {
+    font-size: 16px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .top-bar-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .top-bar-sep {
+    font-size: 16px;
+    color: var(--rule);
+  }
+
+  .top-bar-role {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--ink);
+  }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: 0; text-transform: none; }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    white-space: pre-line;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .project-nav-item--left {
+    grid-column: 1 / span 8;
+  }
+  .project-nav-item--right {
+    grid-column: 9 / span 8;
+  }
+  .project-nav-label {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover {
+    color: #007d79;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body {
+    grid-column: 1 / span 6;
+    min-width: 0;
+  }
+  .panel-media {
+    grid-column: 9 / span 8;
+    width: 100%;
+    min-width: 0;
+  }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .panel-quote {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--accent-colour);
+    font-style: italic;
+  }
+  .panel-quote-meta {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .panel-quote-meta strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .panel-img {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: block;
+    overflow: hidden;
+  }
+  .panel-img svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .panel-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img,
+  .media-carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption { flex: 1; min-width: 0; min-height: 88px; }
+  .media-carousel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .media-carousel-subtitle {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.85;
+  }
+  .media-carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .media-carousel-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .media-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c0c0c0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .media-carousel-dot.active { background: var(--ink); }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 6px;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+  }
+  .media-grid-item {
+    position: relative;
+    min-height: 0;
+    background: #d6d6d6;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .media-grid-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .media-grid:hover .media-grid-item::after { opacity: 0.55; }
+  .media-grid:hover .media-grid-item:hover::after { opacity: 0; }
+
+  .media-grid-expanded {
+    display: none;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    background: #d6d6d6;
+    overflow: hidden;
+  }
+  .media-grid-expanded.open { display: block; }
+  .media-grid-expanded img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-expanded-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--muted);
+  }
+  .media-grid-expanded-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: background 0.15s;
+  }
+  .media-grid-expanded-close:hover { background: #fff; }
+
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-layout { grid-template-columns: 1fr; gap: 28px; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+    .panel-img, .panel-img-placeholder { min-height: 240px; }
+  }
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>I design products. I also use AI to ship code.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Products shipped</strong>5+</div>
+      <div class="meta-item"><strong>Career span</strong>7 years</div>
+      <div class="meta-item"><strong>Current</strong>Asset Explorer</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>Seven years designing inside IBM product teams — across five products, from IBM MQ through to leading Asset Explorer from concept to GA. When the design-to-engineering handoff broke down, I didn't raise a ticket. I used AI to contribute the fixes directly into the codebase myself.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>I've been a product designer for seven years, and I've already used AI to close the gap between design and code. That's not a talking point — it's how I work. I know where systems let teams down, because I've been on the receiving end.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The story</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">Asset Explorer GA</button>
+    <button class="nav-pill" onclick="switchTab(1)">Shipping code as a designer</button>
+  </div>
+
+  <div class="panels">
+        <div class="section-panel is-visible" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Asset Explorer GA</h2>
+          <p>IBM webMethods Hybrid Integration spans 11 capabilities, each producing assets with value beyond their original context. But there was no unified way to discover, understand, or reuse them — valuable work stayed hidden behind capability silos and tribal knowledge.</p>
+          <p>As the sole designer, I led Asset Explorer from concept to GA — a cross-platform discovery experience for the ecosystem. I defined a realistic MVP from an ambitious vision, aligned stakeholders, made difficult prioritisation calls, and advocated for the experiences that would deliver the most value first.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+              <div class="media-carousel-slide" style="background:#dde1e6;padding:0 32px 32px;flex-direction:column;justify-content:flex-end;align-items:stretch;"><video src="../assets/Asset discovery.mp4" muted playsinline style="width:100%;height:auto!important;object-fit:contain;display:block;" aria-label="Asset discovery — a single view across capabilities replacing silos and tribal knowledge with a governed, searchable catalogue."></video></div>
+              <div class="media-carousel-slide" style="background:#dde1e6;padding:0 32px 32px;flex-direction:column;justify-content:flex-end;align-items:stretch;"><video src="../assets/Asset understanding.mp4" muted playsinline style="width:100%;height:auto!important;object-fit:contain;display:block;" aria-label="Asset understanding — AI-generated overview built from asset metadata."></video></div>
+              <div class="media-carousel-slide" style="background:#dde1e6;padding:0 32px 32px;flex-direction:column;justify-content:flex-end;align-items:stretch;"><video src="../assets/Asset request.mp4" muted playsinline style="width:100%;height:auto!important;object-fit:contain;display:block;" aria-label="Requesting access to assets — reducing duplication across the organisation."></video></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div style="flex:1;min-width:0">
+              <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">Asset discovery</p><p class="media-carousel-subtitle">One view across all capabilities — replacing silos and tribal knowledge with a governed, searchable catalogue.</p></div>
+              <div class="media-carousel-caption" id="c1-cap-1" style="display:none"><p class="media-carousel-title">Asset understanding</p><p class="media-carousel-subtitle">Poorly named assets hide their value. An AI-generated overview built from metadata tells users what an asset does.</p></div>
+              <div class="media-carousel-caption" id="c1-cap-2" style="display:none"><p class="media-carousel-title">Requesting access</p><p class="media-carousel-subtitle">Restricted assets stay visible so users can request access instead of rebuilding — cutting duplication across the organisation.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" aria-label="Previous" onclick="c1Nav((parseInt(document.getElementById('c1-track').dataset.idx||0)-1+3)%3)">‹</button>
+                <div class="media-carousel-dots"><span class="media-carousel-dot active" id="c1-dot-0"></span><span class="media-carousel-dot" id="c1-dot-1"></span><span class="media-carousel-dot" id="c1-dot-2"></span></div>
+                <button class="media-carousel-btn" aria-label="Next" onclick="c1Nav((parseInt(document.getElementById('c1-track').dataset.idx||0)+1)%3)">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote">"There has been no bottlenecks in concepts, UX journeys, hi-fi's. Laura has been a full one-stop design shop for us."</div>
+            <div class="panel-quote-meta"><strong>Bilal Farrukh</strong>Product Manager, IBM webMethods Hybrid Integration</div>
+          </div>
+          <div class="panel-quote-card">
+            <div class="panel-quote">"Your UX contributions and your focus and dedication helped the team deliver a more polished and user-friendly product experience. The clarity in UX flows and interactions helped development move faster."</div>
+            <div class="panel-quote-meta"><strong>Syed Abuthahir</strong>Software Development Manager, IBM webMethods Hybrid Integration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s2">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Shipping code as a designer</h2>
+          <p>Joining a newly acquired team as the sole designer, I faced a familiar scaling problem: too many visual defects, too little time before release. Manual review and Jira workflows weren't keeping pace.</p>
+          <p>I introduced AI-assisted fixes directly within the codebase — fitting into established engineering workflows rather than disrupting them. I became the first designer in the organisation to contribute production code this way, then shared the approach across the wider design org. The result: a faster path to quality and a stronger design–engineering partnership.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c2-track">
+              <div class="media-carousel-slide"><img src="../assets/Merged%20PR.png" decoding="async" style="object-fit: cover; object-position: top left;" alt="GitHub pull request showing 5 visual bug fixes merged into the IBM webMethods product codebase — contributions made directly by the designer using an AI-assisted code contribution workflow."></div>
+              <div class="media-carousel-slide"><img src="../assets/Design%20share.jpg" decoding="async" style="object-fit: cover; object-position: top left;" alt="Session run with the wider design organisation sharing the AI-assisted code contribution process — how designers can contribute directly to production code and overall product quality."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div style="flex:1;min-width:0">
+              <div class="media-carousel-caption" id="c2-cap-0" style="display:block"><p class="media-carousel-title">Merged PR</p><p class="media-carousel-subtitle">5 visual bugs found, fixed and merged into the product — contributed directly to the production codebase.</p></div>
+              <div class="media-carousel-caption" id="c2-cap-1" style="display:none"><p class="media-carousel-title">Scaling the learning</p><p class="media-carousel-subtitle">The session run with the wider design organisation sharing the AI-assisted code contribution process.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" aria-label="Previous" onclick="(function(c){var t=document.getElementById('c2-track'),n=2;t.style.transform='translateX(-'+c*100+'%)';t.dataset.idx=c;document.querySelectorAll('[id^=c2-cap-]').forEach(function(el,i){el.style.display=i===c?'block':'none'});document.querySelectorAll('[id^=c2-dot-]').forEach(function(el,i){el.className='media-carousel-dot'+(i===c?' active':'')})})((parseInt(document.getElementById('c2-track').dataset.idx||0)-1+2)%2)">‹</button>
+                <div class="media-carousel-dots"><span class="media-carousel-dot active" id="c2-dot-0"></span><span class="media-carousel-dot" id="c2-dot-1"></span></div>
+                <button class="media-carousel-btn" aria-label="Next" onclick="(function(c){var t=document.getElementById('c2-track'),n=2;t.style.transform='translateX(-'+c*100+'%)';t.dataset.idx=c;document.querySelectorAll('[id^=c2-cap-]').forEach(function(el,i){el.style.display=i===c?'block':'none'});document.querySelectorAll('[id^=c2-dot-]').forEach(function(el,i){el.className='media-carousel-dot'+(i===c?' active':'')})})((parseInt(document.getElementById('c2-track').dataset.idx||0)+1)%2)">›</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote">"The use case was well articulated, which made it easy to understand how designers can contribute more directly to production code and overall product quality."</div>
+            <div class="panel-quote-meta"><strong>Rucha Vakhariya</strong>Advisory Designer, IBM API Connect</div>
+          </div>
+          <div class="panel-quote-card">
+            <div class="panel-quote">"Not only did I learn the fundamentals of the process… You communicated the session in such an eloquent and careful manner that it made the session user friendly and far less daunting than it could have been."</div>
+            <div class="panel-quote-meta"><strong>Izzy Howard</strong>Associate Designer, IBM webMethods Hybrid Integration</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="product-gallery.html">← I built the infrastructure for design at scale.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="ai-patent.html">I designed an AI workflow. Two years later, it became a filed patent. →</a>
+    </div>
+  </div>
+</div>
+<script>
+// Loop c1 videos with a 1s pause between plays
+document.querySelectorAll('#c1-track video').forEach(function(v) {
+  v.addEventListener('ended', function() {
+    v._loopTimer = setTimeout(function() { v.currentTime = 0; v.play(); }, 1000);
+  });
+});
+
+// Auto-play first slide of c1 on page load with 2s delay
+(function() {
+  var firstVideo = document.querySelector('#c1-track .media-carousel-slide:first-child video');
+  if (firstVideo) {
+    firstVideo._playTimer = setTimeout(function() { firstVideo.play(); }, 2000);
+  }
+})();
+
+function c1Nav(c) {
+  var t = document.getElementById('c1-track');
+  t.style.transform = 'translateX(-' + c * 100 + '%)';
+  t.dataset.idx = c;
+  document.querySelectorAll('[id^=c1-cap-]').forEach(function(el, i) { el.style.display = i === c ? 'block' : 'none'; });
+  document.querySelectorAll('[id^=c1-dot-]').forEach(function(el, i) { el.className = 'media-carousel-dot' + (i === c ? ' active' : ''); });
+  // pause all videos in this carousel, then play the active one after 2s
+  var videos = t.querySelectorAll('video');
+  videos.forEach(function(v) { v.pause(); v.currentTime = 0; clearTimeout(v._playTimer); });
+  var activeVideo = t.querySelectorAll('.media-carousel-slide')[c].querySelector('video');
+  if (activeVideo) {
+    activeVideo._playTimer = setTimeout(function() { activeVideo.play(); }, 2000);
+  }
+}
+
+var pills = document.querySelectorAll('.nav-pill');
+var panels = document.querySelectorAll('.section-panel');
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  panels.forEach(function(p) { p.classList.remove('is-visible'); });
+  pills[i].classList.add('is-active');
+  panels[i].classList.add('is-visible');
+}
+</script>
+
+</body>
+</html>

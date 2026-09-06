@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Good design dies in handoff. I found out why — and changed it.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .top-bar-right {
+    font-size: 16px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  .top-bar-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .top-bar-sep {
+    font-size: 16px;
+    color: var(--rule);
+  }
+
+  .top-bar-role {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+  }
+
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+
+  .back-link:hover {
+    color: var(--ink);
+  }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); letter-spacing: 0; text-transform: none; }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--ink-mid);
+    white-space: pre-line;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .project-nav-item--left {
+    grid-column: 1 / span 8;
+  }
+  .project-nav-item--right {
+    grid-column: 9 / span 8;
+  }
+  .project-nav-label {
+    display: block;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover {
+    color: #007d79;
+  }
+
+  .nav-pills {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body {
+    grid-column: 1 / span 6;
+    min-width: 0;
+  }
+  .panel-media {
+    grid-column: 9 / span 8;
+    width: 100%;
+    min-width: 0;
+  }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card {
+    grid-column: span 8;
+    min-width: 0;
+  }
+  .panel-quote {
+    font-family: var(--serif);
+    font-size: 24px;
+    line-height: 1.5;
+    color: var(--accent-colour);
+    font-style: italic;
+  }
+  .panel-quote-meta {
+    margin-top: 14px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--muted);
+  }
+  .panel-quote-meta strong {
+    display: block;
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .panel-img {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: block;
+    overflow: hidden;
+  }
+  .panel-img svg {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .panel-img-placeholder {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: var(--muted);
+    text-align: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img,
+  .media-carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption-wrap { position: relative; flex: 1; min-width: 0; min-height: 5.5em; }
+  .media-carousel-caption { position: absolute; top: 0; left: 0; width: 100%; }
+  .media-carousel-subtitle a { color: #007d79; text-decoration: underline; text-underline-offset: 2px; transition: color 0.2s ease; }
+  .media-carousel-subtitle a:hover { color: var(--ink); }
+  .media-carousel-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .media-carousel-subtitle {
+    font-size: 14px;
+    color: var(--ink-mid);
+    line-height: 1.85;
+  }
+  .media-carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .media-carousel-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .media-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c0c0c0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .media-carousel-dot.active { background: var(--ink); }
+
+  .media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 6px;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+  }
+  .media-grid-item {
+    position: relative;
+    min-height: 0;
+    background: #d6d6d6;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .media-grid-item img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+  .media-grid:hover .media-grid-item::after { opacity: 0.55; }
+  .media-grid:hover .media-grid-item:hover::after { opacity: 0; }
+
+  .media-grid-expanded {
+    display: none;
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    background: #d6d6d6;
+    overflow: hidden;
+  }
+  .media-grid-expanded.open { display: block; }
+  .media-grid-expanded img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-grid-expanded-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; color: var(--muted);
+  }
+  .media-grid-expanded-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    background: rgba(255,255,255,0.85);
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    transition: background 0.15s;
+  }
+  .media-grid-expanded-close:hover { background: #fff; }
+
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-layout { grid-template-columns: 1fr; gap: 28px; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+    .panel-img, .panel-img-placeholder { min-height: 240px; }
+  }
+@media (max-width: 760px) {
+  .top-bar-right { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>Good design dies in handoff. I found out why — and changed it.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Surveyed</strong>100 developers</div>
+      <div class="meta-item"><strong>Countries</strong>12+</div>
+      <div class="meta-item"><strong>Output</strong>Design delivery guidance, FED session, Spark talk</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>Designers blamed implementation. Developers blamed the specs. I wanted to understand where the handoff actually broke down — from the developer's side — and what good looked like at scale.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>Engineering partnership doesn't start with components. It starts with understanding where intent gets lost. This research found exactly that — and changed it at scale across the entire organisation.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The story</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">The research</button>
+    <button class="nav-pill" onclick="switchTab(1)">The finding</button>
+    <button class="nav-pill" onclick="switchTab(2)">What changed</button>
+    <button class="nav-pill" onclick="switchTab(3)">Lessons</button>
+  </div>
+
+  <div class="panels">
+        <div class="section-panel is-visible" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>The research</h2>
+          <p>This wasn't part of my role. I was working full-time as a product designer when I noticed the same friction recurring — design intent getting lost somewhere between Figma and the final build. I wanted to understand it properly before proposing anything.</p>
+          <p>I surveyed developers across IBM Software to find out where implementation actually broke down. The same issues surfaced repeatedly: missing error states, unclear component usage, designs misaligned to the Carbon Design System, and solutions that ignored technical constraints.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+              <div class="media-carousel-slide" style="display:block; background:#ffffff;"><img src="../assets/Screenshot 2026-07-28 at 16.35.15.jpg" decoding="async" style="object-fit: cover; object-position: left center;" alt="Survey overview — findings across 100 developers on design-to-developer handoff friction."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+              <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">The questions asked</p><p class="media-carousel-subtitle">What would you change about handover? What's hardest to implement? What's most often missing? And how do you handle a design that Carbon can't support?</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s2">
+      <div class="panel-layout" style="align-items:center;">
+        <div class="panel-body">
+          <h2>The finding</h2>
+          <p>The technical gaps were fixable. The bigger finding was cultural — teams with the strongest outcomes weren't handing work over, they were working through it together. The teams who struggled weren't asking for better specs. They were asking to be involved sooner.</p>
+          <p>A word isn't just a word when it's encoding a process. Handoff tells designers their job is done. The issue wasn't that developers needed more from design — it was that both sides needed a different relationship to the work, built on collaboration and shared ownership from the start.</p>
+        </div>
+        <div class="panel-media">
+          <div style="width:100%; display:flex; align-items:center; height:100%;">
+            <div style="padding:0;height:100%;display:flex;flex-direction:column;justify-content:center;"><p style="font-family:var(--serif);font-size:24px;line-height:1.6;color:#007d79;font-style:italic;margin-bottom:24px">&ldquo;Rename the whole process of &lsquo;handover&rsquo; to something else. There are many designers still stuck in a waterfall mentality where handover signals that their work is final&hellip; This type of thinking impedes collaboration between design and development and prevents quick iterative improvement.&rdquo;</p><p style="font-size:14px;color:var(--muted)"><strong style="display:block;color:var(--ink);font-weight:700">Survey respondent</strong>Developer, IBM</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s3">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>What changed</h2>
+          <p>Research without action is just interesting. I sequenced three interventions deliberately: test with developers, bring the conversation to designers, then translate it into guidance the whole organisation could use.</p>
+          <p>The FED session and Spark talk I delivered myself. The published guidance was a team effort — I led a small group, bringing together others already working on related problems, to turn the research into something repeatable and adopted at scale.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c3-track">
+              <div class="media-carousel-slide" style="display:block;background:#1c2b33;"><img src="../assets/122_LightningTalk 1.jpg" decoding="async" style="width:100%;height:100%;object-fit:cover;object-position:center;display:block;" alt="FED Hursley lightning talk — presenting research findings to front-end developers."></div>
+              <div class="media-carousel-slide" style="display:none; background:#e8f0f5;"><img src="../assets/Spark talk.jpg" decoding="async" style="object-fit: contain; object-position: center;" alt="Spark Design Festival talk — bringing the research findings to designers across IBM."></div>
+              <div class="media-carousel-slide" style="display:none;"><img src="../assets/Design delivery.jpg" decoding="async" style="object-fit: cover; object-position: top center;" alt="Design delivery guidance published on Carbon for IBM Products."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+              <div class="media-carousel-caption" id="c3-cap-0" style="display:block"><p class="media-carousel-title">FED Hursley Branch Session</p><p class="media-carousel-subtitle">Tested the findings with front-end developers, refining recommendations with the people closest to the problem.</p></div>
+              <div class="media-carousel-caption" id="c3-cap-1" style="display:none"><p class="media-carousel-title">Spark Design Festival Talk</p><p class="media-carousel-subtitle">Brought the research to designers across IBM, turning findings into a wider conversation about collaboration.</p></div>
+              <div class="media-carousel-caption" id="c3-cap-2" style="display:none"><p class="media-carousel-title">Design delivery guidance</p><p class="media-carousel-subtitle">Practical guidance published through IBM Products — helping teams improve design delivery and developer collaboration.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c3-prev" aria-label="Previous slide" onclick="carouselMove('c3',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c3-dots"><span class="media-carousel-dot active"></span><span class="media-carousel-dot"></span><span class="media-carousel-dot"></span></div>
+                <button class="media-carousel-btn" id="c3-next" aria-label="Next slide" onclick="carouselMove('c3',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s4">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Lessons</h2>
+          <p>Across 100 developers in 12 countries, the same pattern emerged: most quality issues weren't caused by people. They were caused by gaps in process, communication, and shared understanding.</p>
+          <p>Delivery isn't where design ends — it's where intent is most at risk of being lost. A design system can only close that gap if the people using it on both sides understand what it's actually for.</p>
+        </div>
+        <div class="panel-media">
+          <div style="width:100%;">
+            <div style="display:flex;flex-direction:column;gap:0">
+  <span style="display:block;font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.85;color:var(--ink-mid);margin-bottom:28px">Lessons I&#8217;ve taken forward</span>
+  <div style="display:flex;flex-direction:column;gap:28px">
+    <div style="display:flex;align-items:flex-start;gap:16px;margin-left:-48px">
+      <div style="flex-shrink:0;width:32px;height:32px">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M23.7642 6.8593L25.0493 5.3278C23.8079 4.27706 22.3926 3.45107 20.8672 2.887L20.1836 4.7646C21.4899 5.24917 22.7016 5.95805 23.7642 6.8593Z" fill="currentColor"/><path d="M27.81 14L29.7777 13.5872C29.5011 11.9894 28.9468 10.4523 28.14 9.0457L26.4087 10C27.0997 11.244 27.5736 12.5967 27.81 14Z" fill="currentColor"/><path d="M20.1836 27.2354L20.8672 29.113C22.3926 28.5489 23.8079 27.7229 25.0493 26.6722L23.7642 25.1407C22.7016 26.042 21.4899 26.7508 20.1836 27.2354Z" fill="currentColor"/><path d="M26.4087 22L28.14 23C28.9473 21.5772 29.5016 20.0251 29.7782 18.4128L27.81 18.0659C27.5734 19.4483 27.0993 20.7793 26.4087 22Z" fill="currentColor"/><path d="M16 30V2C12.287 2 8.72601 3.475 6.1005 6.1005C3.475 8.72601 2 12.287 2 16C2 19.713 3.475 23.274 6.1005 25.8995C8.72601 28.525 12.287 30 16 30Z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.375;color:var(--ink);margin-bottom:4px">Developers aren&#8217;t the problem&#8212;the process is</p>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.375;color:var(--ink-mid)">Quality issues are usually caused by incomplete information, not a lack of care.</p>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:16px;margin-left:-48px">
+      <div style="flex-shrink:0;width:32px;height:32px">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M12 25C11.2617 25 10.6238 25.4048 10.2773 26H4.64723L7.29513 20.9077C7.52243 20.9629 7.75603 21 7.99993 21C9.65423 21 10.9999 19.6543 10.9999 18C10.9999 16.3457 9.65423 15 7.99993 15C6.34563 15 4.99993 16.3457 4.99993 18C4.99993 18.6787 5.23483 19.2979 5.61613 19.8013L2.11273 26.5386C1.95163 26.8487 1.96383 27.2202 2.14523 27.5191C2.32643 27.8174 2.65063 28.0001 2.99993 28.0001H10.2772C10.6236 28.5953 11.2616 29.0001 11.9999 29.0001C13.1044 29.0001 13.9999 28.1046 13.9999 27.0001C13.9999 25.8956 13.1045 25 12 25ZM8.00003 17C8.55153 17 9.00003 17.4487 9.00003 18C9.00003 18.5513 8.55153 19 8.00003 19C7.44853 19 7.00003 18.5513 7.00003 18C7.00003 17.4487 7.44853 17 8.00003 17Z" fill="currentColor"/><path d="M29.8872 26.5386L25.8462 18.7676C25.9448 18.5313 26 18.272 26 18C26 16.8955 25.1045 16 24 16C22.8955 16 22 16.8955 22 18C22 19.1045 22.8955 20 24 20C24.0757 20 24.1477 19.9858 24.2212 19.9775L27.3528 26H22.8157C22.4016 24.8389 21.302 24 20 24C18.3457 24 17 25.3457 17 27C17 28.6543 18.3457 30 20 30C21.302 30 22.4016 29.1611 22.8157 28H29C29.3494 28 29.6736 27.8174 29.8547 27.519C30.0361 27.2202 30.0483 26.8487 29.8872 26.5386ZM20 28C19.4485 28 19 27.5513 19 27C19 26.4487 19.4485 26 20 26C20.5515 26 21 26.4487 21 27C21 27.5513 20.5515 28 20 28Z" fill="currentColor"/><path d="M21 8C20.7561 8 20.5222 8.0371 20.2952 8.0923L16.8872 1.5386C16.7151 1.2075 16.3574 1 16 1C15.6426 1 15.2849 1.2075 15.1128 1.5386L11.2214 9.0225C11.1477 9.0142 11.0756 9 11 9C9.89553 9 9.00003 9.8955 9.00003 11C9.00003 12.1045 9.89553 13 11 13C12.1045 13 13 12.1045 13 11C13 10.728 12.9448 10.4688 12.8462 10.2324L16 4.1675L18.6162 9.1987C18.2349 9.7021 18 10.3213 18 11C18 12.6543 19.3457 14 21 14C22.6543 14 24 12.6543 24 11C24 9.3457 22.6543 8 21 8ZM21 12C20.4485 12 20 11.5513 20 11C20 10.4487 20.4485 10 21 10C21.5515 10 22 10.4487 22 11C22 11.5513 21.5515 12 21 12Z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.375;color:var(--ink);margin-bottom:4px">Words encode processes</p>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.375;color:var(--ink-mid)">Terms like handoff shape expectations, ownership, and behaviour.</p>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:16px;margin-left:-48px">
+      <div style="flex-shrink:0;width:32px;height:32px">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M7 30C6.0111 30 5.0444 29.7068 4.22215 29.1573C3.39991 28.6079 2.75904 27.827 2.3806 26.9134C2.00217 25.9998 1.90315 24.9945 2.09608 24.0245C2.289 23.0546 2.76521 22.1637 3.46447 21.4645C4.16373 20.7652 5.05465 20.289 6.02455 20.0961C6.99446 19.9031 7.99979 20.0022 8.91342 20.3806C9.82705 20.759 10.6079 21.3999 11.1573 22.2221C11.7068 23.0444 12 24.0111 12 25C11.9984 26.3256 11.4712 27.5965 10.5338 28.5338C9.59647 29.4712 8.32561 29.9984 7 30ZM7 22C6.40666 22 5.82664 22.1759 5.33329 22.5056C4.83994 22.8352 4.45543 23.3038 4.22836 23.8519C4.0013 24.4001 3.94189 25.0033 4.05765 25.5853C4.1734 26.1672 4.45912 26.7018 4.87868 27.1213C5.29824 27.5409 5.83279 27.8266 6.41473 27.9424C6.99667 28.0581 7.59987 27.9987 8.14805 27.7716C8.69623 27.5446 9.16477 27.1601 9.49441 26.6667C9.82406 26.1734 10 25.5933 10 25C9.99913 24.2046 9.68278 23.4421 9.12036 22.8796C8.55794 22.3172 7.79538 22.0009 7 22Z" fill="currentColor"/><path d="M24 26H14V24H24V17H8C7.46974 16.9994 6.96136 16.7886 6.5864 16.4136C6.21145 16.0386 6.00056 15.5303 6 15V8C6.00056 7.46974 6.21145 6.96135 6.5864 6.5864C6.96136 6.21145 7.46974 6.00056 8 6H18V8H8V15H24C24.5303 15.0006 25.0386 15.2114 25.4136 15.5864C25.7886 15.9614 25.9994 16.4697 26 17V24C25.9994 24.5303 25.7886 25.0386 25.4136 25.4136C25.0386 25.7886 24.5303 25.9994 24 26Z" fill="currentColor"/><path d="M28 12H22C21.4698 11.9994 20.9614 11.7885 20.5865 11.4135C20.2115 11.0386 20.0006 10.5302 20 10V4C20.0006 3.46975 20.2115 2.9614 20.5865 2.58646C20.9614 2.21152 21.4698 2.00061 22 2H28C28.5302 2.00061 29.0386 2.21152 29.4135 2.58646C29.7885 2.9614 29.9994 3.46975 30 4V10C29.9994 10.5302 29.7885 11.0386 29.4135 11.4135C29.0386 11.7885 28.5302 11.9994 28 12ZM22 4V10H28V4H22Z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.375;color:var(--ink);margin-bottom:4px">A design system must cover the full picture</p>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.375;color:var(--ink-mid)">Error states, edge cases, and constraints aren't afterthoughts — they're where the system proves its value.</p>
+      </div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:16px;margin-left:-48px">
+      <div style="flex-shrink:0;width:32px;height:32px">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="32" height="32" fill="white" fill-opacity="0.01"/><path d="M6 21V20H4V21C4 22.8565 4.7375 24.637 6.05025 25.9497C7.36301 27.2625 9.14348 28 11 28H14V26H11C9.67392 26 8.40215 25.4732 7.46447 24.5355C6.52678 23.5979 6 22.3261 6 21Z" fill="currentColor"/><path d="M24 11V12H26V11C26 9.14349 25.2625 7.36301 23.9497 6.05025C22.637 4.7375 20.8565 4 19 4H16V6H19C19.6566 6 20.3068 6.12933 20.9134 6.3806C21.52 6.63188 22.0712 7.00017 22.5355 7.46447C22.9998 7.92876 23.3681 8.47996 23.6194 9.08659C23.8707 9.69321 24 10.3434 24 11Z" fill="currentColor"/><path d="M11 11H5C4.20435 11 3.44129 11.3161 2.87868 11.8787C2.31607 12.4413 2 13.2044 2 14V16H4V14C4 13.7348 4.10536 13.4804 4.29289 13.2929C4.48043 13.1054 4.73478 13 5 13H11C11.2652 13 11.5196 13.1054 11.7071 13.2929C11.8946 13.4804 12 13.7348 12 14V16H14V14C14 13.2044 13.6839 12.4413 13.1213 11.8787C12.5587 11.3161 11.7956 11 11 11Z" fill="currentColor"/><path d="M8 10C8.79113 10 9.56448 9.76541 10.2223 9.32588C10.8801 8.88635 11.3928 8.26164 11.6955 7.53074C11.9983 6.79983 12.0775 5.99556 11.9231 5.21964C11.7688 4.44372 11.3878 3.73098 10.8284 3.17157C10.269 2.61216 9.55629 2.2312 8.78036 2.07686C8.00444 1.92252 7.20017 2.00173 6.46927 2.30448C5.73836 2.60723 5.11365 3.11992 4.67412 3.77772C4.2346 4.43552 4 5.20888 4 6C4 7.06087 4.42143 8.07828 5.17157 8.82843C5.92172 9.57857 6.93913 10 8 10ZM8 4C8.39556 4 8.78224 4.1173 9.11114 4.33706C9.44004 4.55683 9.69638 4.86918 9.84776 5.23463C9.99913 5.60009 10.0387 6.00222 9.96157 6.39018C9.8844 6.77814 9.69392 7.13451 9.41421 7.41422C9.13451 7.69392 8.77814 7.8844 8.39018 7.96157C8.00222 8.03874 7.60009 7.99914 7.23463 7.84776C6.86918 7.69639 6.55682 7.44004 6.33706 7.11114C6.1173 6.78224 6 6.39556 6 6C6 5.46957 6.21071 4.96086 6.58579 4.58579C6.96086 4.21072 7.46957 4 8 4Z" fill="currentColor"/><path d="M27 25H21C20.2044 25 19.4413 25.3161 18.8787 25.8787C18.3161 26.4413 18 27.2044 18 28V30H20V28C20 27.7348 20.1054 27.4804 20.2929 27.2929C20.4804 27.1054 20.7348 27 21 27H27C27.2652 27 27.5196 27.1054 27.7071 27.2929C27.8946 27.4804 28 27.7348 28 28V30H30V28C30 27.2044 29.6839 26.4413 29.1213 25.8787C28.5587 25.3161 27.7956 25 27 25Z" fill="currentColor"/><path d="M20 20C20 20.7911 20.2346 21.5645 20.6741 22.2223C21.1136 22.8801 21.7384 23.3928 22.4693 23.6955C23.2002 23.9983 24.0044 24.0775 24.7804 23.9231C25.5563 23.7688 26.269 23.3878 26.8284 22.8284C27.3878 22.269 27.7688 21.5563 27.9231 20.7804C28.0775 20.0044 27.9983 19.2002 27.6955 18.4693C27.3928 17.7384 26.8801 17.1136 26.2223 16.6741C25.5645 16.2346 24.7911 16 24 16C22.9391 16 21.9217 16.4214 21.1716 17.1716C20.4214 17.9217 20 18.9391 20 20ZM26 20C26 20.3956 25.8827 20.7822 25.6629 21.1111C25.4432 21.44 25.1308 21.6964 24.7654 21.8478C24.3999 21.9991 23.9978 22.0387 23.6098 21.9616C23.2219 21.8844 22.8655 21.6939 22.5858 21.4142C22.3061 21.1345 22.1156 20.7781 22.0384 20.3902C21.9613 20.0022 22.0009 19.6001 22.1522 19.2346C22.3036 18.8692 22.56 18.5568 22.8889 18.3371C23.2178 18.1173 23.6044 18 24 18C24.5304 18 25.0391 18.2107 25.4142 18.5858C25.7893 18.9609 26 19.4696 26 20Z" fill="currentColor"/></svg>
+      </div>
+      <div>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:700;line-height:1.375;color:var(--ink);margin-bottom:4px">Continuous collaboration beats perfect handoff</p>
+        <p style="font-family:var(--sans);font-size:16px;font-weight:400;line-height:1.375;color:var(--ink-mid)">The strongest outcomes came from ongoing conversations, not polished documentation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="figma-kit.html">← I led the team that gave IBM designers their design foundation.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="carbon-contributions.html">I found the gaps in the system and filled them. →</a>
+    </div>
+  </div>
+</div>
+<script>
+var pills = document.querySelectorAll('.nav-pill');
+var panels = document.querySelectorAll('.section-panel');
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  pills[i].classList.add('is-active');
+  requestAnimationFrame(function() {
+    panels.forEach(function(p) { p.classList.remove('is-visible'); });
+    panels[i].classList.add('is-visible');
+  });
+}
+function carouselMove(id, dir) {
+  var track = document.getElementById(id + '-track');
+  var slides = track.children;
+  var dots = document.getElementById(id + '-dots').children;
+  var captions = track.closest('.media-carousel').querySelectorAll('[id^="' + id + '-cap-"]');
+  var current = 0;
+  for (var i = 0; i < slides.length; i++) {
+    if (slides[i].style.display !== 'none') { current = i; break; }
+  }
+  var next = (current + dir + slides.length) % slides.length;
+  slides[current].style.display = 'none';
+  slides[next].style.display = 'block';
+  dots[current].classList.remove('active');
+  dots[next].classList.add('active');
+  captions[current].style.display = 'none';
+  captions[next].style.display = 'block';
+}
+</script>
+</body>
+</html>
