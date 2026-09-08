@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Speaking, teaching, advocating — because communities grow when practitioners share.</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,700;1,400&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,700;1,400&display=swap">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --serif: "IBM Plex Serif", "Georgia", "Times New Roman", serif;
+    --sans: "IBM Plex Sans", -apple-system, "Segoe UI", system-ui, sans-serif;
+    --ink: #0f0f0f;
+    --ink-mid: #2e2e2e;
+    --muted: #767676;
+    --rule: #e2e2e2;
+    --bg: #fafaf8;
+    --accent: #007d79;
+    --accent-soft: #ede7dc;
+    --bar-h: 40px;
+    --accent-colour: #007d79;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--bg);
+    padding: calc(var(--bar-h) + 26px) 0 72px;
+  }
+
+  .top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--bar-h);
+    background: rgba(250,250,248,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule);
+    z-index: 100;
+  }
+
+  .top-bar-inner {
+    max-width: 1240px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .top-bar-left { display: flex; align-items: baseline; gap: 6px; }
+  .top-bar-right { font-size: 16px; color: var(--muted); text-align: right; }
+  .top-bar-name { font-size: 16px; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; }
+  .top-bar-sep { font-size: 16px; color: var(--rule); }
+  .top-bar-role { font-size: 16px; font-weight: 400; color: var(--muted); }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #007d79;
+    text-decoration: none;
+    margin-bottom: 28px;
+    transition: color 0.2s ease;
+  }
+  .back-link:hover { color: var(--ink); }
+
+  .container { max-width: 1240px; margin: 0 auto; padding: 0 48px; }
+
+  .case-header { margin-bottom: 32px; }
+  .case-header h1 {
+    font-family: var(--serif);
+    font-size: clamp(36px, 5.5vw, 68px);
+    font-weight: 400;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 26px;
+  }
+  .meta-row { display: flex; gap: 28px; flex-wrap: wrap; }
+  .meta-item { font-size: 14px; line-height: 1.85; color: var(--ink-mid); }
+  .meta-item strong { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 700; color: var(--ink); }
+
+  .summary { display: grid; grid-template-columns: repeat(16, minmax(0, 1fr)); gap: 24px; margin-bottom: 12px; }
+  .summary-block { min-width: 0; }
+  .summary-block:first-child { grid-column: 1 / span 7; }
+  .summary-block:last-child { grid-column: 9 / span 7; }
+  .summary-block .summary-label { display: block; margin-bottom: 10px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .summary-block p { font-family: var(--sans); font-size: 16px; line-height: 1.85; color: var(--ink-mid); }
+
+  .divider { border: none; border-top: 1px solid var(--rule); margin: 28px 0; }
+  .sections-label { font-size: 14px; font-weight: 700; color: var(--ink); display: block; margin-bottom: 18px; }
+
+  .project-nav {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .project-nav-item { grid-column: span 8; min-width: 0; }
+  .project-nav-item--left { grid-column: 1 / span 8; }
+  .project-nav-item--right { grid-column: 9 / span 8; }
+  .project-nav-label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 10px; }
+  .project-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--serif);
+    font-size: 28px;
+    line-height: 1.25;
+    color: var(--ink);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .project-nav-link:hover { color: #007d79; }
+
+  .nav-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; }
+  .nav-pill {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 400;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: #f4f4f4;
+    color: #6f6f6f;
+    cursor: pointer;
+    transition: color 0.15s ease, background-color 0.15s ease;
+    user-select: none;
+  }
+  .nav-pill:hover { background: #e0e0e0; color: #525252; }
+  .nav-pill.is-active { background: #9ef0f0; color: #005d5d; }
+  .nav-pill.is-active:hover { background: #9ef0f0; color: #005d5d; }
+
+  .panels { margin-bottom: 24px; }
+  .section-panel { display: none; }
+  .section-panel.is-visible { display: block; }
+
+  .panel-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .panel-body { grid-column: 1 / span 6; min-width: 0; }
+  .panel-media { grid-column: 9 / span 8; width: 100%; min-width: 0; }
+  .panel-quotes {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--rule);
+  }
+  .panel-body h2 {
+    font-family: var(--serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--accent-colour);
+    margin-bottom: 18px;
+  }
+  .panel-body p { font-size: 16px; line-height: 1.85; color: var(--ink-mid); margin-bottom: 18px; }
+  .panel-body p:last-child { margin-bottom: 0; }
+  .panel-quote-card { grid-column: span 8; min-width: 0; }
+  .panel-quote { font-family: var(--serif); font-size: 24px; line-height: 1.5; color: var(--accent-colour); font-style: italic; }
+  .panel-quote-meta { margin-top: 12px; font-size: 14px; color: var(--muted); }
+  .panel-quote-meta strong { color: var(--ink); font-weight: 700; display: block; }
+
+  .media-img {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #ededed;
+    overflow: hidden;
+  }
+  .media-img img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .media-caption { margin-top: 14px; }
+  .media-caption-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .media-caption-sub { font-size: 14px; color: var(--ink); line-height: 1.85; }
+
+  .media-carousel { width: 100%; }
+  .media-carousel-track-wrap {
+    width: 100%;
+    aspect-ratio: 1312 / 900;
+    border: 1px solid var(--rule);
+    background: #f0efec;
+    overflow: hidden;
+    position: relative;
+  }
+  .media-carousel-track {
+    display: flex;
+    height: 100%;
+    transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+  }
+  .media-carousel-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--muted);
+    text-align: center;
+    overflow: hidden;
+  }
+  .media-carousel-slide img,
+  .media-carousel-slide video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    background: transparent;
+  }
+  .media-carousel-footer {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 14px;
+  }
+  .media-carousel-caption-wrap { position: relative; flex: 1; min-width: 0; min-height: 4.5em; }
+  .media-carousel-caption { position: absolute; top: 0; left: 0; width: 100%; }
+  .media-carousel-title { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .media-carousel-subtitle { font-size: 14px; color: var(--ink-mid); line-height: 1.85; }
+  .media-carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  .media-carousel-btn {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: transparent;
+    color: var(--ink);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: color 0.2s;
+    line-height: 1;
+  }
+  .media-carousel-btn:hover { color: var(--accent); }
+  .media-carousel-dots { display: flex; align-items: center; gap: 6px; }
+  .media-carousel-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #c0c0c0;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+  .media-carousel-dot.active { background: var(--ink); }
+  /* hide controls when only one slide */
+  .media-carousel-dots:has(.media-carousel-dot:only-child) ~ .media-carousel-btn,
+  .media-carousel-controls:has(.media-carousel-dot:only-child) .media-carousel-btn { display: none; }
+  .media-carousel-dots:has(.media-carousel-dot:only-child) { display: none; }
+
+  .talks-carousel { position: relative; }
+  .talk-slide { display: none; }
+  .talk-slide.is-active { display: block; }
+  .talk-slide-layout {
+    display: grid;
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+    padding-bottom: 32px;
+  }
+  .talk-slide-body { grid-column: 1 / span 7; min-width: 0; }
+  .talk-slide-media { grid-column: 9 / span 8; min-width: 0; }
+  .talks-carousel-footer {
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+  }
+  .talks-carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .talk-entry-event {
+    display: block;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+  }
+  .talk-entry-audience { display: block; font-size: 13px; color: var(--muted); margin-bottom: 14px; }
+  .talk-entry-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    color: var(--accent-colour);
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    margin-bottom: 14px;
+  }
+  .talk-entry-desc { font-size: 16px; color: var(--ink-mid); line-height: 1.85; margin-bottom: 0; }
+  .talk-entry-quote {
+    font-family: var(--serif);
+    font-size: 18px;
+    font-style: italic;
+    line-height: 1.5;
+    color: var(--accent-colour);
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+  }
+  .talk-entry-quote cite {
+    display: block;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-style: normal;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .talk-sessions { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--rule); }
+  .talk-session { margin-bottom: 16px; }
+  .talk-session:last-child { margin-bottom: 0; }
+  .talk-session-date { font-size: 13px; font-weight: 700; color: var(--muted); display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .talk-session-title { font-family: var(--serif); font-size: 17px; font-style: italic; color: var(--ink); line-height: 1.3; margin-bottom: 3px; }
+  .talk-session-desc { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+
+  /* Bento Grid Styling */
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+    width: 100%;
+  }
+  .bento-card {
+    grid-column: span 6;
+    background: #fcfcfb;
+    border: 1px solid var(--rule);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+  }
+  .bento-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .bento-card--large {
+    grid-column: span 12;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+  }
+  .bento-card-text {
+    grid-column: span 7;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .bento-card-media {
+    grid-column: span 5;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--rule);
+    background: #f0efec;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .bento-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .bento-card-badge {
+    align-self: flex-start;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    background: #e5f2f2;
+    padding: 4px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+  }
+  .bento-card-title {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .bento-card-desc {
+    font-size: 14.5px;
+    color: var(--ink-mid);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .bento-card-quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 14.5px;
+    color: var(--accent-colour);
+    border-left: 2px solid var(--accent);
+    padding-left: 14px;
+    margin-top: auto;
+  }
+  .bento-card-quote cite {
+    display: block;
+    font-family: var(--sans);
+    font-style: normal;
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+  .bento-flex-sessions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 8px;
+    border-top: 1px solid var(--rule);
+    padding-top: 16px;
+    width: 100%;
+  }
+  .bento-flex-session {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
+  @media (max-width: 1000px) {
+    .bento-card--large {
+      grid-template-columns: 1fr;
+    }
+    .bento-card-text, .bento-card-media {
+      grid-column: auto;
+    }
+    .bento-flex-sessions {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .bento-card {
+      grid-column: span 12;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .panel-layout { grid-template-columns: 1fr; }
+    .panel-body, .panel-media { grid-column: auto; }
+    .panel-media { order: 2; }
+    .panel-quotes { order: 3; }
+    .panel-body { order: 1; }
+    .panels { min-height: 0; }
+    .panel-quotes { grid-template-columns: 1fr; }
+    .panel-quote-card { grid-column: auto; }
+    .talk-slide-layout { grid-template-columns: 1fr; gap: 20px; }
+    .talk-slide-body, .talk-slide-media { grid-column: auto; }
+    .talk-slide-media { order: 1; }
+    .talk-slide-body { order: 2; }
+  }
+
+  @media (max-width: 760px) {
+    body { padding: calc(var(--bar-h) + 20px) 0 56px; }
+    .container { padding: 0 24px; }
+    .summary { grid-template-columns: 1fr; gap: 28px; }
+    .summary-block:first-child, .summary-block:last-child { grid-column: auto; display: block; }
+    .panel-body, .panel-media, .panel-quotes, .panel-quote-card, .project-nav-item { grid-column: auto; }
+    .panel-quotes, .project-nav { grid-template-columns: 1fr; gap: 20px; }
+    .panel-quotes { padding-top: 20px; margin-top: 20px; }
+    .panels { min-height: 0; }
+    .panel-body h2 { font-size: 30px; }
+    .top-bar-right { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar"></div>
+<script src="../assets/top-bar.js"></script>
+
+<div class="container">
+  <a class="back-link" href="../index.html">← Back to portfolio</a>
+
+  <div class="case-header">
+    <h1>Speaking, teaching, advocating — because communities grow when practitioners share.</h1>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Guest lecturing</strong>6 years · University of Reading</div>
+      <div class="meta-item"><strong>Recognition</strong>"Your confidence was infectious" — Dave Pemberton, PM</div>
+    </div>
+  </div>
+
+  <div class="summary">
+    <div class="summary-block">
+      <span class="summary-label">TLDR</span>
+      <p>For six years I've taught design to university students. I've led workshops in Bangalore, presented to clients at the Hursley Summit, run AI sessions for Nationwide, spoken at IBM's Design Festival, and shared learnings across IBM's design community. Speaking, teaching, and building community: these have always been part of the job for me.</p>
+    </div>
+    <div class="summary-block">
+      <span class="summary-label">Why it's relevant</span>
+      <p>A Designer Advocate builds genuine community relationships and shows up for people who aren't paying them to be there. Six years teaching at a university — outside my job description, fitted around my day job — is the clearest example I have of that instinct. The talks and workshops are the same thing at a different scale. That's what I'd bring to Figma.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <span class="sections-label">The story</span>
+
+  <div class="nav-pills">
+    <button class="nav-pill is-active" onclick="switchTab(0)">Guest lecturing</button>
+    <button class="nav-pill" onclick="switchTab(1)">Talks &amp; events</button>
+  </div>
+
+  <div class="panels">
+
+    <div class="section-panel is-visible" id="s0">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Guest lecturing</h2>
+          <p>For six years I was Lead Lecturer on a university design module — teaching the skills I believed emerging designers actually needed to succeed in industry. At its peak I ran 10 sessions a year: workshops, taught sessions, and individual feedback.</p>
+          <p>The module grew into something I'm proud of. One of the students I taught was later hired at IBM. The feedback was consistently strong — and the challenge of making design concepts land with students at different levels sharpened how I explain things to everyone else.</p>
+          <p>Teaching over COVID was its own lesson. Running a design thinking workshop for 40 students with every camera off and every microphone muted forced me to find ways to create engagement without any of the usual signals. I came back from that a better communicator.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c0-track">
+                <div class="media-carousel-slide"><img src="../assets/Lecturing.JPG" alt="Laura lecturing design students at the University of Reading."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c0-cap-0" style="display:block"><p class="media-carousel-title">Teaching design</p><p class="media-carousel-subtitle">Six years of guest lecturing — workshops, taught sessions, and individual student feedback built around what industry actually needs from designers.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c0-prev" aria-label="Previous slide" onclick="carouselMove('c0',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c0-dots"><span class="media-carousel-dot active"></span></div>
+                <button class="media-carousel-btn" id="c0-next" aria-label="Next slide" onclick="carouselMove('c0',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote">"Laura led and taught on our year 2 undergraduate user-experience module, for 6 years… A particular focus was on use of Figma and developing effective workflows into student design practice… providing undergraduates with real-world insights and skills that can be applied directly into workplaces."</div>
+            <div class="panel-quote-meta"><strong>Rachel Warner</strong>Graphic Communication Lecturer, University of Reading</div>
+          </div>
+          <div class="panel-quote-card">
+            <div class="panel-quote">"Amazing! Best course. One of the best modules."</div>
+            <div style="border-top:1px solid var(--rule);margin:18px 0;"></div>
+            <div class="panel-quote">"The trip to IBM and Laura's teaching was really beneficial. She helped me in shaping my presentation, and this was something I achieved highly on as a result."</div>
+            <div class="panel-quote-meta" style="margin-top:10px;"><strong>Student feedback</strong>University of Reading</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-panel" id="s1">
+      <div class="panel-layout">
+        <div class="panel-body">
+          <h2>Talks &amp; events</h2>
+          <p>Across IBM I've presented to audiences ranging from fellow designers to engineers to paying clients. The Nationwide workshop was a direct example of using design to move a customer: I ran a live session showing how Figma Make and IBM Bob could change their team's workflow, built a working prototype from a paper sketch during the session to make it concrete, and left them with something they could take back and act on. The Hursley Americas Summit was the same dynamic at a different scale — presenting early product work to client stakeholders who needed to understand where we were going and why it was worth their attention.</p>
+          <p>The approach is always the same: find the insight that's genuinely useful to the room, strip out everything that isn't, and make it concrete enough to act on. The Design Festival talk is the clearest example — research across 100+ developers, turned into a session that reached IBM's design community and changed how teams structure their Figma-to-code handoff.</p>
+        </div>
+        <div class="panel-media">
+          <div class="media-carousel">
+            <div class="media-carousel-track-wrap">
+              <div class="media-carousel-track" id="c1-track">
+                <div class="media-carousel-slide"><img src="../assets/Carbon%20workshop.jpeg" alt="30+ designers and tech leads working through the Carbon migration alignment workshop in Bangalore."></div>
+                <div class="media-carousel-slide"><img src="../assets/Hursley%20summit.jpeg" alt="Laura presenting at the Hursley Americas Summit."></div>
+                <div class="media-carousel-slide" style="background: #000; position:relative;">
+                  <video id="nationwide-video" loop muted playsinline preload="auto" style="width:100%; height:100%; object-fit:cover; display:block;">
+                    <source src="../assets/Nationwide.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <div class="media-carousel-slide" style="background: #ffffff;"><img src="../assets/Design%20shares.png" style="width:100%; height:100%; object-fit:contain;" alt="IBM Design Shares — community talk on the Product Gallery."></div>
+                <div class="media-carousel-slide"><img src="../assets/Lightning%20talk.png" alt="Laura presenting research findings on developer handoff at the IBM Design Festival."></div>
+                <div class="media-carousel-slide" style="background: #ffffff;"><img src="../assets/Design%20share.jpg" style="width:100%; height:100%; object-fit:contain;" alt="IBM internal session — designers shipping production code using AI."></div>
+              </div>
+            </div>
+            <div class="media-carousel-footer">
+              <div class="media-carousel-caption-wrap">
+                <div class="media-carousel-caption" id="c1-cap-0" style="display:block"><p class="media-carousel-title">Carbon Migration Workshop · Bangalore, 2025</p><p class="media-carousel-subtitle">I led a three-day workshop in Bangalore to align eight newly acquired product teams onto IBM's design system — bringing together 30+ designers and tech leads. 21/21 survey respondents agreed it fully met its objectives.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-1" style="display:none"><p class="media-carousel-title">Hursley Americas Summit · 2025</p><p class="media-carousel-subtitle">Presenting early product concepts to paying IBM clients at the Hursley Americas Summit — helping stakeholders understand where the product was going and build confidence in the direction.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-2" style="display:none"><p class="media-carousel-title">Nationwide Client AI Workshop · 2026</p><p class="media-carousel-subtitle">A client enablement session for Nationwide stakeholders — showing how Figma Make and IBM Bob could fit into their real design workflows. Built a working prototype from a paper sketch live in the session, so the value was tangible rather than theoretical.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-3" style="display:none"><p class="media-carousel-title">IBM Design Shares · 2022–2024</p><p class="media-carousel-subtitle">Community sessions sharing project learnings across the whole IBM design community — including the Product Gallery and Carbon adoption.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-4" style="display:none"><p class="media-carousel-title">IBM Design Festival · 2023</p><p class="media-carousel-subtitle">Design handoff best practices — presented to IBM's global design community.</p></div>
+                <div class="media-carousel-caption" id="c1-cap-5" style="display:none"><p class="media-carousel-title">Designers shipping code · 2026</p><p class="media-carousel-subtitle">How I became the first designer in my org to contribute production code using AI — and how I shared that workflow across the design organisation.</p></div>
+              </div>
+              <div class="media-carousel-controls">
+                <button class="media-carousel-btn" id="c1-prev" aria-label="Previous slide" onclick="carouselMove('c1',-1)">&#8592;</button>
+                <div class="media-carousel-dots" id="c1-dots"><span class="media-carousel-dot active"></span><span class="media-carousel-dot"></span><span class="media-carousel-dot"></span><span class="media-carousel-dot"></span><span class="media-carousel-dot"></span><span class="media-carousel-dot"></span></div>
+                <button class="media-carousel-btn" id="c1-next" aria-label="Next slide" onclick="carouselMove('c1',1)">&#8594;</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-quotes">
+          <div class="panel-quote-card">
+            <div class="panel-quote">"Your confidence was infectious… what stood out the most was the way you earned the trust and respect of the entire development team."</div>
+            <div class="panel-quote-meta"><strong>Dave Pemberton</strong>Product Manager, IBM webMethods · Carbon Migration Workshop, 2025</div>
+          </div>
+          <div class="panel-quote-card">
+            <div class="panel-quote">"We gave an excellent presentation to a decent number of clients — one fifth of the attendees of the summit itself. We would not have been able to do this without you and the attitude you bring to table."</div>
+            <div class="panel-quote-meta"><strong>Tom Solomon</strong>Senior Designer, IBM · Hursley Americas Summit, 2025</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="project-nav">
+    <div class="project-nav-item project-nav-item--left">
+      <span class="project-nav-label">Previous project</span>
+      <a class="project-nav-link" href="figma-kit.html">← I built IBM's Figma foundation — and learned what makes a kit teams actually use.</a>
+    </div>
+    <div class="project-nav-item project-nav-item--right">
+      <span class="project-nav-label">Next project</span>
+      <a class="project-nav-link" href="developer-handoff-process.html">Good design dies in handoff. I found out why — and turned the findings into a talk. →</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var pills = document.querySelectorAll('.nav-pill');
+var panels = [document.getElementById('s0'), document.getElementById('s1')];
+function switchTab(i) {
+  pills.forEach(function(p) { p.classList.remove('is-active'); });
+  panels.forEach(function(p) { p.classList.remove('is-visible'); });
+  pills[i].classList.add('is-active');
+  panels[i].classList.add('is-visible');
+}
+function carouselMove(id, dir) {
+  var track = document.getElementById(id + '-track');
+  var dots = document.querySelectorAll('#' + id + '-dots .media-carousel-dot');
+  var n = dots.length;
+  var current = parseInt(track.dataset.idx || 0);
+  var next = (current + dir + n) % n;
+  track.style.transform = 'translateX(-' + next * 100 + '%)';
+  track.dataset.idx = next;
+  document.querySelectorAll('[id^=' + id + '-cap-]').forEach(function(el, i) {
+    el.style.display = i === next ? 'block' : 'none';
+  });
+  dots.forEach(function(dot, i) {
+    dot.className = 'media-carousel-dot' + (i === next ? ' active' : '');
+  });
+  // play video on active slide, pause all others
+  var slides = track.querySelectorAll('.media-carousel-slide');
+  slides.forEach(function(slide, i) {
+    var vid = slide.querySelector('video');
+    if (!vid) return;
+    if (i === next) { vid.play(); } else { vid.pause(); }
+  });
+}
+var talkIdx = 0;
+var talkSlides = document.querySelectorAll('.talk-slide');
+var talkDots = document.querySelectorAll('#tc-dots .media-carousel-dot');
+function talkMove(dir) {
+  var n = talkSlides.length;
+  talkSlides[talkIdx].classList.remove('is-active');
+  talkDots[talkIdx].classList.remove('active');
+  talkIdx = (talkIdx + dir + n) % n;
+  talkSlides[talkIdx].classList.add('is-active');
+  talkDots[talkIdx].classList.add('active');
+}
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 // Shared top bar — edit this file to update the header across the entire portfolio
 (function () {
   const NAME  = 'Laura Marshall';
-  const ROLE  = 'Design Systems Leader';
+  const ROLE  = 'Designer Advocate';
   const RIGHT = 'Portfolio · Curated with AI';
 
   const html = `<div class="top-bar-inner">

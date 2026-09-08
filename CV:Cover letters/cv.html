@@ -38,7 +38,7 @@ body {
   width: 210mm;
   min-height: 297mm;
   margin: 0 auto;
-  padding: 12mm 14mm 12mm;
+  padding: 8mm 14mm 12mm;
   background: #ffffff;
   overflow: hidden;
 }
@@ -128,6 +128,10 @@ body {
   margin-bottom: 22px;
 }
 
+.cv-col-right .cv-entry {
+  margin-bottom: 12px;
+}
+
 .cv-section-title {
   font-family: var(--sans);
   font-size: 12px;
@@ -135,6 +139,15 @@ body {
   color: var(--ink);
   text-transform: none;
   letter-spacing: 0;
+  margin-top: 24px;
+}
+
+.cv-col-left .cv-section:first-child .cv-section-title,
+.cv-col-right .cv-section:first-child .cv-section-title {
+  margin-top: 0;
+}
+
+.cv-section-title {
   margin-top: 24px;
   margin-bottom: 6px;
   padding-bottom: 4px;
@@ -265,7 +278,7 @@ em {
   <header class="cv-header">
     <div>
       <div class="cv-name">Laura Marshall</div>
-      <div class="cv-role">Design Systems Leader</div>
+      <div class="cv-role">Designer Advocate &ensp;·&ensp; Design Systems</div>
     </div>
     <div class="cv-contact">
       <div class="cv-contact-row">
@@ -297,17 +310,15 @@ em {
           <div class="cv-entry-meta" style="margin-bottom:1px;">IBM &ensp;·&ensp; 2019–present</div>
           <div class="cv-role-sub" style="margin-bottom:4px;">Design systems · Product design</div>
           <div class="cv-entry-body">
-            <p style="margin-bottom:8px;">Seven years at IBM building, contributing to, and driving adoption of the Carbon Design System at scale — while shipping features across enterprise products.</p>
+            <p style="margin-bottom:8px;">Seven years at IBM as both a practitioner and advocate — building the Carbon for IBM Products Figma kit, teaching design-to-code workflows, and creating the guidance and community structures that helped hundreds of designers and engineers work together more effectively.</p>
             <p class="cv-entry-subhead" style="margin-top:10px; margin-bottom:3px;">Career highlights include</p>
             <ul class="cv-bullets">
-              <li>Leading a team of 10 designers to build the Carbon for IBM Products Figma kit from scratch — applying Carbon's token architecture, adapting quickly to Figma variables as they launched, defining the roadmap, reviewing all contributions, and shipping 30+ components with <strong>165% adoption growth</strong> in five months.</li>
-              <li>Researching design-to-development collaboration across <strong>100+ developers in 12 countries</strong> — identifying the cultural root cause, publishing guidance, and establishing practices that brought design and engineering into shared ownership earlier.</li>
-              <li>Leading a team of designers to migrate <strong>8 newly acquired products onto a shared design system in 9 months</strong> — defining the governance model, influencing teams who hadn't chosen the system, and building the compliance framework used to report progress to senior leadership.</li>
-              <li>Contributing many components and patterns to Carbon alongside my day job in product — including button guidance, full page errors (identified through an accessibility contrast gap in dark mode), tag overflow and grid influencers — identifying gaps through product work and driving them through the formal contribution process into system-level standards used across IBM.</li>
-              <li>Using AI-assisted workflows to contribute HTML and CSS fixes directly into production code — merged into a live IBM product — the first designer in my organisation to bridge design and code this way.</li>
-              <li>Designing an AI-driven radiology triage system — filed as a US patent in 2022 — applying machine learning to surface the most critical cases first, before AI tooling was a mainstream conversation in product.</li>
-              <li>Building IBM's Product Gallery — making good design visible and reusable across IBM's global design community.</li>
-              <li>Mentoring <strong>10+ designers</strong> across my career — on design systems, contribution processes, and visual design craft.</li>
+              <li>Leading a team of 10 designers to build the Carbon for IBM Products <strong>Figma</strong> kit from scratch — token architecture, <strong>Figma variables</strong>, 30+ components, <strong>165% adoption growth</strong> in five months — plus the documentation, workshops, and enablement content that drove adoption.</li>
+              <li>Researching design-to-development collaboration across <strong>100+ developers in 12 countries</strong> — publishing guidance and workshops that brought design and engineering into shared ownership; presented at the <strong>IBM Design Festival</strong>.</li>
+              <li>Leading a team to migrate <strong>8 newly acquired products onto a shared design system in 9 months</strong> — governance model, compliance framework, and leadership reporting.</li>
+              <li>Contributing components, patterns, and written guidance to Carbon from product work — button guidance, full page errors, tag overflow, grid influencers — plus video walkthroughs on how to use Figma kits, driving all of it through the formal contribution process into IBM-wide standards.</li>
+              <li>Using AI-assisted workflows to contribute HTML and CSS fixes into production code — the first designer in my organisation to do so — then sharing those workflows across the design community through internal talks.</li>
+              <li>Mentoring <strong>12+ designers</strong> across my career — on design systems, contribution processes, and visual design craft.</li>
             </ul>
           </div>
         </div>
@@ -318,95 +329,24 @@ em {
           </div>
           <div class="cv-entry-meta">University of Reading &ensp;·&ensp; 2019–2025</div>
           <div class="cv-entry-body">
-            <p>For six years I led a compulsory second year app design module — covering user-centred design, design thinking, and helping students build design systems for their projects.</p>
+            <p>Alongside my full-time role at IBM, I voluntarily led a compulsory second-year module for six years — teaching user-centred design, design thinking, and design systems to cohorts of 100+ students. Built and delivered all materials, workshops, individual feedback, and annual careers conversations. A student I taught was later hired at IBM — and has since taken over leading the module.</p>
+            <p class="cv-quote">"A particular focus was on use of Figma and developing effective workflows into student design practice." — Rachel Warner, Graphic Communication Lecturer, UoR</p>
           </div>
         </div>
 
-      <!-- Education -->
+      </section>
+
+      <!-- Education & Research -->
       <section class="cv-section">
         <div class="cv-section-title">Education</div>
-
         <div class="cv-entry">
           <div class="cv-entry-header">
             <span class="cv-entry-title">First Class – BA Graphic Communication</span>
           </div>
           <div class="cv-entry-meta">University of Reading &ensp;·&ensp; 2019</div>
-          <div class="cv-entry-body">
-            <p>Dissertation exploring Braille's relevance alongside emerging technological alternatives — later published as a piece of design research.</p>
-          </div>
-        </div>
-      </section>
-
-    </div><!-- /left -->
-
-    <!-- RIGHT COLUMN -->
-    <div class="cv-col-right">
-
-      <!-- Awards -->
-      <section class="cv-section">
-        <div class="cv-section-title">Awards</div>
-
-        <div class="cv-entry">
-          <div class="cv-entry-header">
-            <span class="cv-entry-title">Technical Collaboration Achievement Programme</span>
-          </div>
-          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2023, 2024</div>
-          <div class="cv-entry-body">
-            <p class="cv-quote">Recognition for significant contributions to Carbon for IBM Products and the broader open source ecosystem.</p>
-          </div>
         </div>
 
-        <div class="cv-entry">
-          <div class="cv-entry-header">
-            <span class="cv-entry-title">Growth Award</span>
-          </div>
-          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022</div>
-          <div class="cv-entry-body">
-            <p class="cv-quote">Recognised for exceptional leadership delivering the Carbon for IBM Products Figma kit — essential to IBM's move to Figma, saving every team from recreating assets from scratch.</p>
-          </div>
-        </div>
-
-        <div class="cv-entry">
-          <div class="cv-entry-header">
-            <span class="cv-entry-title">Carbon Champion</span>
-          </div>
-          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022, 2024</div>
-          <div class="cv-entry-body">
-            <p class="cv-quote">Recognised twice — for aligning Carbon components and guidance across product teams via the Design System Adoption Guild, and for creating the Product Gallery to foster consistency across IBM's design community.</p>
-          </div>
-        </div>
-
-        <div class="cv-entry">
-          <div class="cv-entry-header">
-            <span class="cv-entry-title">RockIT Award</span>
-          </div>
-          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2019</div>
-          <div class="cv-entry-body">
-            <p class="cv-quote">Best Newcomer. Recognised for a can-do, ask-why mentality and high quality visual design across product and community work.</p>
-          </div>
-        </div>
-
-      </section>
-
-      <!-- Patents -->
-      <section class="cv-section">
-        <div class="cv-section-title">Patents</div>
-
-        <div class="cv-entry">
-          <div class="cv-entry-header">
-            <span class="cv-entry-title">Artificial Intelligence Prioritization of Abnormal Radiology Scans</span>
-          </div>
-          <div class="cv-entry-meta">United States Patent Office &ensp;·&ensp; 2022</div>
-          <div class="cv-entry-body">
-            <p>A machine learning system that pre-reads scans, surfaces the most critical image, and prioritises urgent cases by severity — before the radiologist opens anything.</p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Published research -->
-      <section class="cv-section">
-        <div class="cv-section-title">Published research</div>
-
+        <div class="cv-section-title" style="margin-top:18px;">Published research</div>
         <div class="cv-entry">
           <div class="cv-entry-header">
             <span class="cv-entry-title">Braille in an evolving technological world</span>
@@ -416,6 +356,105 @@ em {
             <p>Research into people's experiences of Braille as a reading method. Published in the oldest peer-reviewed design journal, with an acceptance rate below 20%.</p>
           </div>
         </div>
+      </section>
+
+    </div><!-- /left -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="cv-col-right">
+
+      <!-- Speaking -->
+      <section class="cv-section">
+        <div class="cv-section-title">Speaking &amp; community</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Nationwide · Client AI Workshop</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2026</div>
+          <div class="cv-entry-body">
+            <p>Presented Figma Make and AI-assisted design workflows to Nationwide stakeholders — live demo: working prototype built from a paper sketch during the session.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Carbon Migration Workshop · Bangalore</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2025</div>
+          <div class="cv-entry-body">
+            <p>Three-day workshop for 30+ designers and tech leads — <strong>21/21</strong> agreed it fully met its objectives.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Hursley Americas Summit</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2025</div>
+          <div class="cv-entry-body">
+            <p>Presented early design concepts to external IBM clients — one fifth of all summit attendees.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">IBM Design Festival · Design Shares</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022–2024</div>
+          <div class="cv-entry-body">
+            <p>Developer handoff talk to IBM's global design community; Design Shares on design system adoption.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Awards, Patents & Research -->
+      <section class="cv-section">
+        <div class="cv-section-title">Awards</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Technical Collaboration Achievement Programme</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2023, 2024</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Significant contributions to Carbon for IBM Products and the broader open source ecosystem.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Growth Award</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Exceptional leadership delivering the Carbon for IBM Products Figma kit — essential to IBM's move to Figma.</p>
+          </div>
+        </div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Carbon Champion</span>
+          </div>
+          <div class="cv-entry-meta">IBM &ensp;·&ensp; 2022, 2024</div>
+          <div class="cv-entry-body">
+            <p class="cv-quote">Recognised twice for aligning Carbon across product teams and creating the Product Gallery.</p>
+          </div>
+        </div>
+
+        <div class="cv-section-title" style="margin-top:18px;">Patents</div>
+
+        <div class="cv-entry">
+          <div class="cv-entry-header">
+            <span class="cv-entry-title">Artificial Intelligence Prioritization of Abnormal Radiology Scans</span>
+          </div>
+          <div class="cv-entry-meta">US Patent Office &ensp;·&ensp; 2022</div>
+          <div class="cv-entry-body">
+            <p>ML system that pre-reads scans and surfaces the most critical cases first — filed before AI tooling was a mainstream product conversation.</p>
+          </div>
+        </div>
+
       </section>
 
     </div><!-- /right -->
